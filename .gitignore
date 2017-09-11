@@ -1,0 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+/web/node_modules/
+/.idea/
+/web/dist/
+/server-bank/target/
