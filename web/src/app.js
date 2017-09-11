@@ -1,15 +1,37 @@
-import React, { PureComponent } from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
+import React from "react";
+import {Provider} from "react-redux";
+import {browserHistory, hashHistory, Route, Router, IndexRoute} from "react-router";
+import {createStore} from "redux";
 
-import './style/main.css';
+import IndexRedux from "./index-redux";
 
-class App extends PureComponent {
+import MainContainer from "./components/MainContainer";
+import WelcomePage from "./components/welcomepage/WelcomePage";
+import SignUp from "./components/signup/SignUp";
+import Login from "./components/login/Login";
 
-    render() {
-        return (
-            <h1>Supessrsss server</h1>
-        );
-    }
-}
+import "./style/main.css";
 
-ReactDOM.render(<App />, document.getElementById('secret_bank_app'));
+// const sagaMiddleware = createSagaMiddleware();
+
+const store = createStore(
+    IndexRedux,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    // composeSetup(applyMiddleware(sagaMiddleware)), // allows redux devtools to watch sagas
+);
+
+// Begin our Index Saga
+//sagaMiddleware.run(IndexSagas);
+
+ReactDOM.render(
+    <Provider store={store}>
+        <Router history={hashHistory}>
+            <Route path="/" component={MainContainer} >
+                <IndexRoute component={WelcomePage}/>
+                <Route path="/signup" component={SignUp}/>
+                <Route path="/login" component={Login}/>
+            </Route>
+        </Router>
+    </Provider>
+, document.getElementById('secret_bank_app'));

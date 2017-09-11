@@ -1,3 +1,56 @@
-#secret_bank_app {
-    background-color: yellow;
+body {
+    margin: 0;
+    background: #333;
+    color: wheat;
 }
+
+footer {
+    margin-top: 20px;
+    box-shadow: 10px 10px 5px #000;
+    border: 1px solid #8a4419;
+    background-color: #333;
+}
+
+video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translateX(-50%) translateY(-50%);
+    /*background: url('//demosthenes.info/assets/images/polina.jpg') no-repeat;*/
+    background-size: cover;
+    transition: 1s opacity;
+}
+
+#main-container {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+
+}
+
+#content {
+    min-height: 700px;
+    width: 80%;
+    margin: 20px auto 0;
+    box-shadow: 10px 10px 5px #000;
+    border: 1px solid #8a4419;
+    background-color: #333;
+}
+
+.outer-wrapper {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.inner-wrapper {
+    display:table-cell;
+    vertical-align:middle;
+    padding:15px;
+}
+.login-btn { position:fixed; top:15px; right:15px; }
