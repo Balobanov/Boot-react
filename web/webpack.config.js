@@ -37,6 +37,17 @@ module.exports = {
       template: 'src/html/index.html'
     })
   ],
+    devServer: {
+        // contentBase: path.join(__dirname, "dist"),
+        // compress: false,
+        port: 9000,
+        proxy:{
+            "/**": {
+                target: "http://localhost:8080",
+                secure: false
+            }
+        },
+    },
 
   devtool: 'cheap-module-eval-source-map'
 };
