@@ -16,8 +16,12 @@
 
 package com.balobanov.controllers;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 public class HomeController {
@@ -25,6 +29,11 @@ public class HomeController {
 	@RequestMapping("/")
 	public String home() {
 		return "home";
+	}
+
+	@RequestMapping(value = "/signup", consumes = "application/json", produces = "application/json")
+	public Map<String, ?> signup(@RequestBody Map<String, ?> params) {
+		return params;
 	}
 
 }

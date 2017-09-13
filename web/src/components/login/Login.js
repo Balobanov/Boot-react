@@ -1,9 +1,8 @@
 import React, {PureComponent} from "react";
 import {connect} from "react-redux";
-
-import {loginRequest} from "./actions/LoginActions";
 import {reduxForm} from "redux-form";
 
+import {loginRequest} from "./actions/LoginActions";
 
 const validateFormFields = ['email', 'password'];
 const formName = 'login';

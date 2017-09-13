@@ -1,12 +1,11 @@
 import { take, fork, cancel, call, put, cancelled } from 'redux-saga/effects'
-import {LOGIN_ERROR, LOGIN_REQUESTING, LOGIN_SUCCESS} from "../constants/LoginConstants";
-import { browserHistory } from "react-router";
+import { browserHistory, hashHistory } from "react-router";
 
-function handleApiErrors (response) {
-    if (!response.ok) throw Error(response.statusText)
-    return response
-}
 
+import {loginFailed, loginSuccess} from "../actions/LoginActions";
+import {authToken} from "../../auth/AuthActions";
+import {LOGIN_REQUESTING} from "../constants/LoginConstants";
+import handleApiErrors from '../../../helpers';
 
 function loginApi (email, password) {
     return fetch(`/oauth/token?grant_type=password&username=${email}&password=${password}`, {
@@ -28,7 +27,7 @@ function loginApi (email, password) {
 //
 //     localStorage.removeItem('token')
 //
-//     browserHistory.push('/login')
+//     hashHistory.push('/login')
 // }
 
 function* startLogin(email, password) {
@@ -38,20 +37,20 @@ function* startLogin(email, password) {
 
         auth = yield call(loginApi, email, password);
 
-        // yield put(setClient(token))
+        yield put(authToken(auth));
 
-        yield put({ type: LOGIN_SUCCESS, auth });
+        yield put(loginSuccess());
 
-        localStorage.setItem('token', JSON.stringify(auth));
+        localStorage.setItem('auth', JSON.stringify(auth));
 
-        browserHistory.push('/');
+        hashHistory.push('/credits');
     }
     catch (error) {
-        yield put({ type: LOGIN_ERROR, error });
+        yield put(loginFailed(error));
     }
     finally {
         // if (yield cancelled()) {
-        //     browserHistory.push('/login')
+        //     hashHistory.push('/login')
         // }
     }
 

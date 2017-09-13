@@ -1,9 +1,9 @@
 import ReactDOM from "react-dom";
 import React from "react";
 import {Provider} from "react-redux";
-import {browserHistory, hashHistory, Route, Router, IndexRoute} from "react-router";
+import {browserHistory, hashHistory, IndexRoute, Route, Router} from "react-router";
 import {applyMiddleware, createStore} from "redux";
-import createSagaMiddleware from 'redux-saga';
+import createSagaMiddleware from "redux-saga";
 import "babel-polyfill";
 
 import IndexRedux from "./index-redux";
@@ -13,6 +13,9 @@ import MainContainer from "./components/MainContainer";
 import WelcomePage from "./components/welcomepage/WelcomePage";
 import SignUp from "./components/signup/SignUp";
 import Login from "./components/login/Login";
+import Credits from "./components/credits/Credits";
+
+import {authToken} from "./components/auth/AuthActions";
 
 import "./style/main.css";
 
@@ -30,14 +33,39 @@ const store = createStore(
 // Begin our Index Saga
 sagaMiddleware.run(IndexSagas);
 
+const checkCreditAuthorization = ({dispatch, getState}) => {
+    return (nextState, replace, next) => {
+
+        if (getState().auth.access_token) {
+            next();
+        }
+
+        replace('/login');
+        return next();
+    }
+};
+
+export const isAuthenticated = ({dispatch, getState}) => {
+    return (nextState, replace, next) => {
+        let auth = JSON.parse(localStorage.getItem('auth'));
+
+        if (auth && auth.access_token) {
+            dispatch(authToken(auth));
+        }
+
+        return next();
+    }
+};
+
 ReactDOM.render(
     <Provider store={store}>
         <Router history={hashHistory}>
-            <Route path="/" component={MainContainer} >
-                <IndexRoute component={WelcomePage}/>
+            <Route path="/" component={MainContainer} onEnter={isAuthenticated(store)}>
+                <IndexRoute component={WelcomePage} onEnter={isAuthenticated(store)}/>
                 <Route path="/signup" component={SignUp}/>
                 <Route path="/login" component={Login}/>
+                <Route path="/credits" component={Credits} onEnter={checkCreditAuthorization(store)}/>
             </Route>
         </Router>
     </Provider>
-, document.getElementById('secret_bank_app'));
+    , document.getElementById('secret_bank_app'));
