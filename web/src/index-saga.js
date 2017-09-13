@@ -1,9 +1,7 @@
-/**
- * Created by user on 11.09.17.
- */
+import loginWatcher from './components/login/saga/LoginSaga';
 
-// export default function* IndexSaga() {
-//     yield [
-//
-//     ];
-// }
+export default function* IndexSaga() {
+    yield [
+        loginWatcher()
+    ];
+}

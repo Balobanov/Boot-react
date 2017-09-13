@@ -4,8 +4,11 @@
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
 
+import {loginReducer as login} from './components/login/reducer/LoginReducer';
+
 const IndexRedusers = combineReducers({
-    form
+    form,
+    login
 });
 
 export default IndexRedusers;
