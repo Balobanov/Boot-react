@@ -1,8 +1,9 @@
-import {LOGIN_ERROR, LOGIN_REQUESTING, LOGIN_SUCCESS} from "../constants/LoginConstants";
+import {
+    SIGN_UP_REQUESTING,
+    SIGN_UP_SUCCESS,
+    SIGN_UP_FAILED
+} from "../constants/SignUpConstants";
 
-/**
- * @type {{requesting: boolean, successful: boolean, messages: Array, errors: Array}}
- */
 const initialState = {
     requesting: false,
     successful: false,
@@ -10,31 +11,28 @@ const initialState = {
     errors: [],
 };
 
-/**
- * TODO: add immutable.js
- */
-export const loginReducer = (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
     switch (action.type) {
-
-        case LOGIN_REQUESTING: {
+        case SIGN_UP_REQUESTING:
             return {
                 requesting: true,
                 successful: false,
-                messages: [{body: 'Logging in...', time: new Date()}],
+                messages: [{ body: 'Signing up...', time: new Date() }],
                 errors: [],
             };
-        }
 
-        case LOGIN_SUCCESS: {
+        case SIGN_UP_SUCCESS:
             return {
                 errors: [],
-                messages: [],
+                messages: [{
+                    body: `Successfully created account`,
+                    time: new Date(),
+                }],
                 requesting: false,
                 successful: true,
             };
-        }
 
-        case LOGIN_ERROR:
+        case SIGN_UP_FAILED:
             return {
                 errors: state.errors.concat([{
                     body: action.error.toString(),
@@ -50,3 +48,5 @@ export const loginReducer = (state = initialState, action) => {
         }
     }
 };
+
+export default reducer;

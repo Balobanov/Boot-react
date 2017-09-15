@@ -1,6 +1,7 @@
-var webpack = require('webpack');
-var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const VENDOR_LIBS = [
   'axios', 'react', 'lodash', 'redux', 'react-redux', 'react-dom',
@@ -23,16 +24,20 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/
       },
-      {
-        use: ['style-loader', 'css-loader'],
-        test: /\.css$/
-      }
+        {
+            test: /\.css$/,
+            use: ExtractTextPlugin.extract({
+                fallback: "style-loader",
+                use: "css-loader"
+            })
+        }
     ]
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor', 'manifest']
     }),
+    new ExtractTextPlugin("styles.css"),
     new HtmlWebpackPlugin({
       template: 'src/html/index.html'
     })

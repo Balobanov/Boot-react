@@ -22,6 +22,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -31,10 +33,38 @@ public class GreetingController {
 
 	private final AtomicLong counter = new AtomicLong();
 
-	@RequestMapping("/greeting")
-	public Greeting greeting(@AuthenticationPrincipal User user) {
-		return new Greeting(counter.incrementAndGet(),
-				String.format(template, user.getName()));
+	@RequestMapping("/credits")
+	public List<Credit> greeting(@AuthenticationPrincipal User user) {
+		return Arrays.asList(new Credit("One", 1), new Credit("Two", 2));
 	}
 
+}
+
+class Credit {
+	private String name;
+	private int status;
+
+	public Credit(String name, int status) {
+		this.name = name;
+		this.status = status;
+	}
+
+	public Credit() {
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
 }
