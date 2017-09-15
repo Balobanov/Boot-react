@@ -1,11 +1,11 @@
 import { take, fork, cancel, call, put, cancelled } from 'redux-saga/effects'
 import { browserHistory, hashHistory } from "react-router";
 
-
-import {loginFailed, loginSuccess} from "../actions/LoginActions";
-import {authToken} from "../../auth/AuthActions";
-import {LOGIN_REQUESTING} from "../constants/LoginConstants";
-import handleApiErrors from '../../../helpers';
+import {loginFailed, loginSuccess} from "./LoginActions";
+import {authToken} from "../auth/AuthActions";
+import {creditsUpdate} from "../credits/CreditsActions";
+import {LOGIN_REQUESTING} from "./LoginConstants";
+import handleApiErrors from '../../helpers';
 
 function loginApi (email, password) {
     return fetch(`/oauth/token?grant_type=password&username=${email}&password=${password}`, {
@@ -30,17 +30,31 @@ function loginApi (email, password) {
 //     hashHistory.push('/login')
 // }
 
+// let stompClient;
+// function* connectToWebsocket() {
+//     const socket = new SockJS('/super-bank-app');
+//     stompClient = Stomp.over(socket);
+//     stompClient.connect({}, function (frame) {
+//         stompClient.subscribe('/topic/credits', function (data) {
+//             switch (data.headers.event){
+//                 case 'update': {
+//                    yield put(creditsUpdate(JSON.parse(data.body)));
+//                     return;
+//                 }
+//             }
+//         });
+//     });
+// }
+
 function* startLogin(email, password) {
     let auth;
 
     try {
 
         auth = yield call(loginApi, email, password);
-
         yield put(authToken(auth));
 
         yield put(loginSuccess());
-
         localStorage.setItem('auth', JSON.stringify(auth));
 
         hashHistory.push('/credits');

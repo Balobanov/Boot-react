@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import React from "react";
 import {Provider} from "react-redux";
-import {browserHistory, hashHistory, IndexRoute, Route, Router} from "react-router";
+import {hashHistory, IndexRoute, Route, Router} from "react-router";
 import {applyMiddleware, createStore} from "redux";
 import createSagaMiddleware from "redux-saga";
 import "babel-polyfill";
@@ -13,7 +13,7 @@ import MainContainer from "./components/MainContainer";
 import WelcomePage from "./components/welcomepage/WelcomePage";
 import SignUp from "./components/signup/SignUp";
 import Login from "./components/login/Login";
-import Credits from "./components/credits/Credits";
+import Credits from "./components/credits/CreditsList";
 
 import {authToken} from "./components/auth/AuthActions";
 
@@ -37,7 +37,7 @@ const checkCreditAuthorization = ({dispatch, getState}) => {
     return (nextState, replace, next) => {
 
         if (getState().auth.access_token) {
-            next();
+            return next();
         }
 
         replace('/login');

@@ -1,8 +1,8 @@
 import {call, put, takeLatest} from "redux-saga/effects";
 import { browserHistory, hashHistory } from "react-router";
 
-import handleApiErrors from "../../../helpers";
-import {SIGN_UP_FAILED, SIGN_UP_REQUESTING, SIGN_UP_SUCCESS} from "../constants/SignUpConstants";
+import handleApiErrors from "../../helpers";
+import {SIGN_UP_FAILED, SIGN_UP_REQUESTING, SIGN_UP_SUCCESS} from "./SignUpConstants";
 
 const callSignUpAPI = (email, password, code) => {
     return fetch(`/signup`, {
