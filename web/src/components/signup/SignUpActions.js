@@ -1,4 +1,4 @@
-import {SIGN_UP_REQUESTING} from "../constants/SignUpConstants";
+import {SIGN_UP_REQUESTING} from "./SignUpConstants";
 
 export const signUp = (email, password, code) => {
     return {

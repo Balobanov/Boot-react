@@ -16,10 +16,15 @@
 
 package com.balobanov.controllers;
 
+import com.balobanov.data.models.Credit;
 import com.balobanov.mocks.Greeting;
 import com.balobanov.data.models.User;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
@@ -36,35 +41,5 @@ public class GreetingController {
 	@RequestMapping("/credits")
 	public List<Credit> greeting(@AuthenticationPrincipal User user) {
 		return Arrays.asList(new Credit("One", 1), new Credit("Two", 2));
-	}
-
-}
-
-class Credit {
-	private String name;
-	private int status;
-
-	public Credit(String name, int status) {
-		this.name = name;
-		this.status = status;
-	}
-
-	public Credit() {
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
 	}
 }
