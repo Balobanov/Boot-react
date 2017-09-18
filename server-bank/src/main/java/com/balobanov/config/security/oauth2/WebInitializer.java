@@ -1,4 +1,4 @@
-package com.balobanov.security.oauth2;
+package com.balobanov.config.security.oauth2;
 
 import com.balobanov.Application;
 import org.springframework.boot.builder.SpringApplicationBuilder;
