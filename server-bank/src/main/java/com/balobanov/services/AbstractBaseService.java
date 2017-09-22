@@ -3,10 +3,12 @@ package com.balobanov.services;
 import com.balobanov.models.base.BaseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
 
+@Transactional
 abstract public class AbstractBaseService<T extends BaseModel, I extends Serializable> implements com.balobanov.services.abstraction.BaseService<T> {
 
 
