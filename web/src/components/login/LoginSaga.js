@@ -3,12 +3,12 @@ import { browserHistory, hashHistory } from "react-router";
 
 import {loginFailed, loginSuccess} from "./LoginActions";
 import {authToken} from "../auth/AuthActions";
-import {creditsUpdate} from "../credits/CreditsActions";
+import {creditsUpdate} from "../bank/BankActions";
 import {LOGIN_REQUESTING} from "./LoginConstants";
 import handleApiErrors from '../../helpers';
 
 function loginApi (email, password) {
-    return fetch(`/oauth/token?grant_type=password&username=${email}&password=${password}`, {
+    return fetch(`/api//oauth/token?grant_type=password&username=${email}&password=${password}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ function* startLogin(email, password) {
         yield put(loginSuccess());
         localStorage.setItem('auth', JSON.stringify(auth));
 
-        hashHistory.push('/credits');
+        hashHistory.push('/banks');
     }
     catch (error) {
         yield put(loginFailed(error));
