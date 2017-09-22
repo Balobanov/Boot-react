@@ -1,12 +1,12 @@
 import { take, fork, cancel, call, put, cancelled, takeLatest, select } from 'redux-saga/effects'
 import { browserHistory, hashHistory } from "react-router";
-import {CREDITS_REQUEST} from "./CreditsConstants";
+import {BANKS_REQUEST} from "./BankConstants";
 import handleApiErrors from '../../helpers';
-import {creditsFailed, creditsSuccess} from "./CreditsActions";
+import {banksFailed, banksSuccess} from "./BankActions";
 
-const creditsAPI = (token) => {
-    return fetch(`/credits`, {
-        method: 'POST',
+const banksAPI = (token) => {
+    return fetch(`/api/banks`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
@@ -20,21 +20,21 @@ const creditsAPI = (token) => {
 };
 
 export const getAuth= state => state.auth;
-function* requestCredits() {
-    let credits;
+function* requestBanks() {
+    let banks;
     let auth;
 
     try {
         auth = yield select(getAuth);
-        credits = yield call(creditsAPI, auth.access_token);
-        yield put(creditsSuccess(credits));
+        banks = yield call(banksAPI, auth.access_token);
+        yield put(banksSuccess(banks));
     } catch (errors) {
-        yield put(creditsFailed(errors));
+        yield put(banksFailed(errors));
     }
 }
 
-export default function* creditsWatcher() {
+export default function* banksWatcher() {
     yield [
-        takeLatest(CREDITS_REQUEST, requestCredits)
+        takeLatest(BANKS_REQUEST, requestBanks)
     ];
 }

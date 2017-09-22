@@ -4,7 +4,7 @@ import { reducer as form } from 'redux-form';
 import {loginReducer as login} from './components/login/LoginReducer';
 import signUp from './components/signup/SignUpReducer';
 import auth from './components/auth/AuthReducer';
-import {creditsReducer as credits} from "./components/credits/CreditsReducer";
+import {banksReducer as banks} from "./components/bank/BankReducer";
 
 
 const IndexRedusers = combineReducers({
@@ -12,7 +12,7 @@ const IndexRedusers = combineReducers({
     login,
     signUp,
     auth,
-    credits
+    banks
 });
 
 export default IndexRedusers;

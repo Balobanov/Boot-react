@@ -50,7 +50,7 @@ export default class NavBar extends PureComponent {
                         <ul className="nav navbar-nav">
                             <li><Link to="/">Home</Link></li>
                             {
-                                this.props.auth.access_token ? <li><Link to="/credits">Credits</Link></li> : null
+                                this.props.auth.access_token ? <li><Link to="/banks">Banks</Link></li> : null
                             }
                         </ul>
                         {

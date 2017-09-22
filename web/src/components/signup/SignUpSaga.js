@@ -5,7 +5,7 @@ import handleApiErrors from "../../helpers";
 import {SIGN_UP_FAILED, SIGN_UP_REQUESTING, SIGN_UP_SUCCESS} from "./SignUpConstants";
 
 const callSignUpAPI = (email, password, code) => {
-    return fetch(`/signup`, {
+    return fetch(`/api/signup`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -13,7 +13,7 @@ import MainContainer from "./components/MainContainer";
 import WelcomePage from "./components/welcomepage/WelcomePage";
 import SignUp from "./components/signup/SignUp";
 import Login from "./components/login/Login";
-import Credits from "./components/credits/CreditsList";
+import Banks from "./components/bank/BankList";
 
 import {authToken} from "./components/auth/AuthActions";
 
@@ -64,7 +64,7 @@ ReactDOM.render(
                 <IndexRoute component={WelcomePage} onEnter={isAuthenticated(store)}/>
                 <Route path="/signup" component={SignUp}/>
                 <Route path="/login" component={Login}/>
-                <Route path="/credits" component={Credits} onEnter={checkCreditAuthorization(store)}/>
+                <Route path="/banks" component={Banks} onEnter={checkCreditAuthorization(store)}/>
             </Route>
         </Router>
     </Provider>
