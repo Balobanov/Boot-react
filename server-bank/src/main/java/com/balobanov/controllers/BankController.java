@@ -17,7 +17,7 @@
 package com.balobanov.controllers;
 
 import com.balobanov.models.Bank;
-import com.balobanov.repositories.BankRepositories;
+import com.balobanov.services.abstraction.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,31 +29,30 @@ import java.util.List;
 @RestController
 public class BankController {
 
-    private final BankRepositories bankRepositories;
+    private BankService service;
 
     @Autowired
-    public BankController(BankRepositories bankRepositories) {
-        this.bankRepositories = bankRepositories;
+    public void setService(BankService service) {
+        this.service = service;
     }
 
     @RequestMapping(value = "banks", method = RequestMethod.GET)
     public List<Bank> all(){
-       return bankRepositories.findAll();
+       return service.getAll();
     }
 
     @RequestMapping(value = "banks", method = RequestMethod.POST, consumes = "application/json")
     public Bank save(@RequestBody Bank bank){
-        return bankRepositories.save(bank);
+        return service.save(bank);
     }
 
     @RequestMapping(value = "banks", method = RequestMethod.PUT, consumes = "application/json")
     public Bank update(@RequestBody Bank bank){
-        return bankRepositories.save(bank);
+        return service.update(bank);
     }
 
     @RequestMapping(value = "banks", method = RequestMethod.DELETE, consumes = "application/json")
     public Bank delete(@RequestBody Bank bank){
-        bankRepositories.delete(bank);
-        return bank;
+        return service.delete(bank);
     }
 }
