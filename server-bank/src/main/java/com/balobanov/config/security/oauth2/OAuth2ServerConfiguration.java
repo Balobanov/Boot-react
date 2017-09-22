@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.balobanov.security.oauth2;
+package com.balobanov.config.security.oauth2;
 
-import com.balobanov.custom.detail.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -55,8 +54,7 @@ public class OAuth2ServerConfiguration {
 		public void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable()
 				.authorizeRequests()
-					.antMatchers("/users").hasRole("ADMIN")
-					.antMatchers("/greeting").authenticated()
+					.antMatchers("/**").fullyAuthenticated()
 					.antMatchers("/oauth/token").permitAll();
 		}
 
@@ -73,16 +71,12 @@ public class OAuth2ServerConfiguration {
 		@Qualifier("authenticationManagerBean")
 		private AuthenticationManager authenticationManager;
 
-		@Autowired
-		private CustomUserDetailsService userDetailsService;
-
 		@Override
 		public void configure(AuthorizationServerEndpointsConfigurer endpoints)
 				throws Exception {
 			endpoints
 				.tokenStore(this.tokenStore)
-				.authenticationManager(this.authenticationManager)
-				.userDetailsService(userDetailsService);
+				.authenticationManager(this.authenticationManager);
 		}
 
 		@Override
