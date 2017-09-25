@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/banks")
 public class BankController {
 
     private BankService service;
@@ -36,22 +37,22 @@ public class BankController {
         this.service = service;
     }
 
-    @RequestMapping(value = "banks", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public List<Bank> all(){
        return service.getAll();
     }
 
-    @RequestMapping(value = "banks", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
     public Bank save(@RequestBody Bank bank){
         return service.save(bank);
     }
 
-    @RequestMapping(value = "banks", method = RequestMethod.PUT, consumes = "application/json")
+    @RequestMapping(method = RequestMethod.PUT, consumes = "application/json")
     public Bank update(@RequestBody Bank bank){
         return service.update(bank);
     }
 
-    @RequestMapping(value = "banks", method = RequestMethod.DELETE, consumes = "application/json")
+    @RequestMapping(method = RequestMethod.DELETE, consumes = "application/json")
     public Bank delete(@RequestBody Bank bank){
         return service.delete(bank);
     }
