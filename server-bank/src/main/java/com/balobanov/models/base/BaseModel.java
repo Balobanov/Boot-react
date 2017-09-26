@@ -13,7 +13,7 @@ public class BaseModel {
     private Long id;
 
     public Long getId() {
-        return id;
+        return id == null ? 0 : id;
     }
 
     public void setId(Long id) {

@@ -44,6 +44,19 @@ public class OAuth2ServerConfiguration {
 	protected static class ResourceServerConfiguration extends
             ResourceServerConfigurerAdapter {
 
+//		@Bean
+//		public RoleHierarchyImpl roleHierarchy() {
+//			RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+//			roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_DBA ROLE_DBA > ROLE_USER ");
+//			return roleHierarchy;
+//		}
+//
+//		private SecurityExpressionHandler<FilterInvocation> webExpressionHandler() {
+//			DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
+//			defaultWebSecurityExpressionHandler.setRoleHierarchy(roleHierarchy());
+//			return defaultWebSecurityExpressionHandler;
+//		}
+
 		@Override
 		public void configure(ResourceServerSecurityConfigurer resources) {
 			resources
@@ -54,6 +67,7 @@ public class OAuth2ServerConfiguration {
 		public void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable()
 				.authorizeRequests()
+//					.expressionHandler(webExpressionHandler())
 					.antMatchers("/**").fullyAuthenticated()
 					.antMatchers("/oauth/token").permitAll();
 		}
