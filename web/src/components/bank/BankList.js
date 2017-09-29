@@ -1,12 +1,11 @@
-import React, {PureComponent, Component} from "react";
+import React, {Component} from "react";
 import {connect} from "react-redux";
+import {Link} from "react-router";
 
-import SockJS from 'sockjs-client';
-import { Stomp } from 'stompjs/lib/stomp';
+import SockJS from "sockjs-client";
+import {Stomp} from "stompjs/lib/stomp";
 
-
-import {banksRequest, banksUpdate} from "./BankActions";
-import Bank from "./Bank";
+import {banksRequest, banksUpdate} from "../../actions/BankActions";
 
 @connect(
     state => ({
@@ -28,7 +27,7 @@ export default class BankList extends Component {
         let stompClient;
         let dispatch = this;
 
-        let url = '/api/super-bank-app?access_token=' + this.props.auth.access_token;
+        let url = '/api/super-bank-app?access_token=' + this.props.auth.get('access_token');
 
         const socket = new SockJS(url);
         stompClient = Stomp.over(socket);
@@ -44,8 +43,13 @@ export default class BankList extends Component {
     }
 
     printBanks(banks) {
-        return banks.banks.map(bank => {
-            return <Bank bank={bank} key={bank.id}/>
+        return banks.get('banks').map(bank => {
+            return (
+                <tr key={bank.get('id')}>
+                    <td>{bank.get('id')}</td>
+                    <td><Link to={'/account/banks/' + bank.get('id')}>{bank.get('name')}</Link></td>
+                </tr>
+            )
         });
     }
 
@@ -55,7 +59,18 @@ export default class BankList extends Component {
         return (
             <div id="banks-page">
                 <h1>Banks</h1>
-                {this.printBanks(banks)}
+                <table className="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {this.printBanks(banks)}
+                    </tbody>
+                </table>
+                {this.props.children}
             </div>
         );
     }

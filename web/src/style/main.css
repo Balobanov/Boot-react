@@ -93,3 +93,11 @@ video {
 .cursor {
     cursor: pointer;
 }
+
+.nav-btn-margin {
+    margin-right: 5px;
+}
+
+.table-text-align-center {
+    text-align: center;
+}

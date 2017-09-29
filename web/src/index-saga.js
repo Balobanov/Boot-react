@@ -1,7 +1,7 @@
-import loginWatcher from './components/login/LoginSaga';
-import signUpWatcher from './components/signup/SignUpSaga';
-import banksWatcher from './components/bank/BankSaga';
-import logoutWatcher from './components/logout/LogoutSaga';
+import loginWatcher from './sagas/LoginSaga';
+import signUpWatcher from './sagas/SignUpSaga';
+import banksWatcher from './sagas/BankSaga';
+import logoutWatcher from './sagas/LogoutSaga';
 
 export default function* IndexSaga() {
     yield [

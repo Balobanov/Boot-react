@@ -1,4 +1,4 @@
-import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR } from './LoginConstants';
+import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR } from '../constants/LoginConstants';
 
 export const loginRequest = (email, password)=> {
     return {

@@ -1,11 +1,11 @@
 import { take, fork, cancel, call, put, cancelled } from 'redux-saga/effects'
 import { browserHistory, hashHistory } from "react-router";
 
-import {loginFailed, loginSuccess} from "./LoginActions";
-import {authToken} from "../auth/AuthActions";
-import {creditsUpdate} from "../bank/BankActions";
-import {LOGIN_REQUESTING} from "./LoginConstants";
-import handleApiErrors from '../../helpers';
+import {loginFailed, loginSuccess} from "../actions/LoginActions";
+import {authToken} from "../actions/AuthActions";
+import {creditsUpdate} from "../actions/BankActions";
+import {LOGIN_REQUESTING} from "../constants/LoginConstants";
+import handleApiErrors from '../helpers';
 
 function loginApi (email, password) {
     return fetch(`/api//oauth/token?grant_type=password&username=${email}&password=${password}`, {
@@ -57,7 +57,7 @@ function* startLogin(email, password) {
         yield put(loginSuccess());
         localStorage.setItem('auth', JSON.stringify(auth));
 
-        hashHistory.push('/banks');
+        hashHistory.push('/account');
     }
     catch (error) {
         yield put(loginFailed(error));
