@@ -1,4 +1,4 @@
-import {BANKS_REQUEST, BANKS_SUCCESS, BANKS_FAILED, BANKS_UPDATE} from "./BankConstants";
+import {BANKS_REQUEST, BANKS_SUCCESS, BANKS_FAILED, BANKS_UPDATE, BANKS_EDIT} from "../constants/BankConstants";
 
 export const banksRequest = () => {
     return {
@@ -20,9 +20,18 @@ export const banksFailed = (errors) => {
     };
 };
 
-export const banksUpdate = (bank) => {
+export const banksUpdate = (id, name) => {
     return {
         type: BANKS_UPDATE,
-        bank
+        id,
+        name
     };
 };
+
+export const banksEdit = (id) => {
+    return {
+        type: BANKS_EDIT,
+        id
+    };
+};
+

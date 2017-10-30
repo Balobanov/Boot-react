@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react";
 
-import NavBar from "./navbar/NavBar";
+import NavBar from "../components/navbar/NavBar";
 
 export default class MainContainer extends PureComponent {
 

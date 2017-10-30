@@ -1,12 +1,12 @@
-import React, {PureComponent, Component} from "react";
+import React, {Component} from "react";
 import {connect} from "react-redux";
+import Modal from 'react-modal';
 
-import SockJS from 'sockjs-client';
-import { Stomp } from 'stompjs/lib/stomp';
+import SockJS from "sockjs-client";
+import {Stomp} from "stompjs/lib/stomp";
 
-
-import {banksRequest, banksUpdate} from "./BankActions";
-import Bank from "./Bank";
+import {banksRequest, banksUpdate, banksEdit} from "../../actions/BankActions";
+import BankEdit from "./BankEdit";
 
 @connect(
     state => ({
@@ -14,6 +14,7 @@ import Bank from "./Bank";
         auth: state.auth
     }), {
         banksRequest,
+        banksEdit,
         banksUpdate
     }
 )
@@ -28,7 +29,7 @@ export default class BankList extends Component {
         let stompClient;
         let dispatch = this;
 
-        let url = '/api/super-bank-app?access_token=' + this.props.auth.access_token;
+        let url = '/api/super-bank-app?access_token=' + this.props.auth.get('access_token');
 
         const socket = new SockJS(url);
         stompClient = Stomp.over(socket);
@@ -44,8 +45,15 @@ export default class BankList extends Component {
     }
 
     printBanks(banks) {
-        return banks.banks.map(bank => {
-            return <Bank bank={bank} key={bank.id}/>
+        const {banksEdit} = this.props;
+
+        return banks.get('banks').map(bank => {
+            return (
+                <tr key={bank.get('id')}>
+                    <td>{bank.get('id')}</td>
+                    <td><button className="btn btn-link" onClick={()=>banksEdit(bank.get('id'))}>{bank.get('name')}</button></td>
+                </tr>
+            )
         });
     }
 
@@ -55,7 +63,20 @@ export default class BankList extends Component {
         return (
             <div id="banks-page">
                 <h1>Banks</h1>
-                {this.printBanks(banks)}
+                <table className="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {this.printBanks(banks)}
+                    </tbody>
+                </table>
+                {
+                    banks.get('selected') ? <BankEdit selected={banks.get('selected')}/>: null
+                }
             </div>
         );
     }

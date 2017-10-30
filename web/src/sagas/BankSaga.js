@@ -1,8 +1,8 @@
 import { take, fork, cancel, call, put, cancelled, takeLatest, select } from 'redux-saga/effects'
 import { browserHistory, hashHistory } from "react-router";
-import {BANKS_REQUEST} from "./BankConstants";
-import handleApiErrors from '../../helpers';
-import {banksFailed, banksSuccess} from "./BankActions";
+import {BANKS_REQUEST} from "../constants/BankConstants";
+import handleApiErrors from '../helpers';
+import {banksFailed, banksSuccess} from "../actions/BankActions";
 
 const banksAPI = (token) => {
     return fetch(`/api/banks`, {
@@ -26,7 +26,7 @@ function* requestBanks() {
 
     try {
         auth = yield select(getAuth);
-        banks = yield call(banksAPI, auth.access_token);
+        banks = yield call(banksAPI, auth.get('access_token'));
         yield put(banksSuccess(banks));
     } catch (errors) {
         yield put(banksFailed(errors));

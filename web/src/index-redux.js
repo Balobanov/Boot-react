@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
 
-import {loginReducer as login} from './components/login/LoginReducer';
-import signUp from './components/signup/SignUpReducer';
-import auth from './components/auth/AuthReducer';
-import {banksReducer as banks} from "./components/bank/BankReducer";
+import {loginReducer as login} from './reducers/LoginReducer';
+import signUp from './reducers/SignUpReducer';
+import auth from './reducers/AuthReducer';
+import {banksReducer as banks} from "./reducers/BankReducer";
 
 
 const IndexRedusers = combineReducers({

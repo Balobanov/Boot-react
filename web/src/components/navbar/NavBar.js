@@ -1,7 +1,7 @@
 import React, {PureComponent} from "react";
 import {Link} from "react-router";
 import {connect} from "react-redux";
-import {logoutRequest} from "../logout/LogoutActions";
+import {logoutRequest} from "../../actions/LogoutActions";
 
 @connect(
     state => ({
@@ -19,22 +19,22 @@ export default class NavBar extends PureComponent {
 
     unauthorized() {
         return (
-            <ul className="nav navbar-nav navbar-right">
-                 <li><Link to="/signup" activeClassName="active"><span className="glyphicon glyphicon-user"/>Sign Up</Link></li>
-                 <li><Link to="/login" activeClassName="active"><span className="glyphicon glyphicon-log-in"/>Login</Link></li>
-            </ul>
+            <div className="nav navbar-nav navbar-right">
+                <Link to="/signup" className="btn btn-default navbar-btn nav-btn-margin">Sign up</Link>
+                <Link to="/login" className="btn btn-default navbar-btn nav-btn-margin">Login</Link>
+            </div>
         );
     }
 
-    logout(){
-       this.props.logoutRequest();
+    logout() {
+        this.props.logoutRequest();
     }
 
     authorized() {
         return (
-            <ul className="nav navbar-nav navbar-right">
-                <li className="cursor"><Link activeClassName="active" onClick={this.logout}><span className="glyphicon glyphicon-log-in cursor"/>Logout</Link></li>
-            </ul>
+            <div className="nav navbar-nav navbar-right">
+                <button type="button" onClick={this.logout} className="btn btn-default navbar-btn nav-btn-margin">Logout</button>
+            </div>
         );
     }
 
@@ -42,19 +42,19 @@ export default class NavBar extends PureComponent {
     render() {
         return (
             <div id="navigation">
-                <nav className="navbar navbar-inverse">
+                <nav className="navbar navbar-default navbar-inverse" role="navigation">
                     <div className="container-fluid">
                         <div className="navbar-header">
-                            <a className="navbar-brand" href="#">ReactBoot</a>
+                            <Link to="/account" className="navbar-brand" href="#">Dashboard</Link>
                         </div>
                         <ul className="nav navbar-nav">
                             <li><Link to="/">Home</Link></li>
                             {
-                                this.props.auth.access_token ? <li><Link to="/banks">Banks</Link></li> : null
+                                this.props.auth.get('access_token') ? <li><Link to="/account/banks">Banks</Link></li> : null
                             }
                         </ul>
                         {
-                            this.props.auth.access_token
+                            this.props.auth.get('access_token')
                                 ? this.authorized()
                                 : this.unauthorized()
                         }

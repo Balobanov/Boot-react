@@ -1,7 +1,7 @@
 import React, {PureComponent} from "react";
 import {reduxForm} from "redux-form";
 
-import {signUp} from "./SignUpActions";
+import {signUp} from "../../actions/SignUpActions";
 
 
 @reduxForm({
