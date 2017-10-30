@@ -20,11 +20,14 @@ export const banksReducer = (state = initState, action) => {
       }
 
       case BANKS_UPDATE: {
-          return state.updateIn(['banks'], banks => banks.set(state.get('banks').findIndex(m => m.get('id') === 26), fromJS({id: action.id, name: action.name})));
+          return state.updateIn(['banks'], banks => banks.set(state.get('banks').findIndex(m => m.get('id') === action.id), fromJS({id: action.id, name: action.name})))
+              .set('selected', null);
       }
 
       case BANKS_EDIT: {
-          return state.set('selected', state.get('banks').find(e => {return `${action.id === e.id}`}));
+          return state.set('selected', state.get('banks').find(e => {
+              return action.id === e.get('id');
+          }));
       }
 
       default: {

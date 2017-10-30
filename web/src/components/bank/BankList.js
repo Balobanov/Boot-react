@@ -1,11 +1,12 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {Link} from "react-router";
+import Modal from 'react-modal';
 
 import SockJS from "sockjs-client";
 import {Stomp} from "stompjs/lib/stomp";
 
-import {banksRequest, banksUpdate} from "../../actions/BankActions";
+import {banksRequest, banksUpdate, banksEdit} from "../../actions/BankActions";
+import BankEdit from "./BankEdit";
 
 @connect(
     state => ({
@@ -13,6 +14,7 @@ import {banksRequest, banksUpdate} from "../../actions/BankActions";
         auth: state.auth
     }), {
         banksRequest,
+        banksEdit,
         banksUpdate
     }
 )
@@ -43,11 +45,13 @@ export default class BankList extends Component {
     }
 
     printBanks(banks) {
+        const {banksEdit} = this.props;
+
         return banks.get('banks').map(bank => {
             return (
                 <tr key={bank.get('id')}>
                     <td>{bank.get('id')}</td>
-                    <td><Link to={'/account/banks/' + bank.get('id')}>{bank.get('name')}</Link></td>
+                    <td><button className="btn btn-link" onClick={()=>banksEdit(bank.get('id'))}>{bank.get('name')}</button></td>
                 </tr>
             )
         });
@@ -70,7 +74,9 @@ export default class BankList extends Component {
                         {this.printBanks(banks)}
                     </tbody>
                 </table>
-                {this.props.children}
+                {
+                    banks.get('selected') ? <BankEdit selected={banks.get('selected')}/>: null
+                }
             </div>
         );
     }

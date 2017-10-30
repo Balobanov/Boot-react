@@ -69,7 +69,7 @@ public class OAuth2ServerConfiguration {
 				.authorizeRequests()
 //					.expressionHandler(webExpressionHandler())
 					.antMatchers("/**").fullyAuthenticated()
-					.antMatchers("/oauth/token").permitAll();
+					.antMatchers("/oauth/token", "/signup").permitAll();
 		}
 
 	}

@@ -8,9 +8,7 @@ const formName = 'bank';
 
 
 @connect(
-    state => ({
-        selected: state.banks.get('selected')
-    }), {
+    state => ({}), {
         banksEdit,
         banksUpdate
     })
@@ -28,31 +26,19 @@ export default class BankEdit extends PureComponent {
 
     constructor(props) {
         super(props);
-
         this.submitLogin = this.submitLogin.bind(this);
-        this.props.banksEdit(this.props.params.id);
     }
 
-    componentWillMount(){
-    }
-
-    static componentWillUpdate(nextProps) {
-        console.log(nextProps);
-    }
-
-    submitLogin({name}) {
-         this.props.banksUpdate(id, name);
+    submitLogin() {
+        const {selected, fields: {name}} = this.props;
+        this.props.banksUpdate(selected.get('id'), name.value);
     }
 
     render() {
-        const {id} = this.props.params;
-        const {selected} = this.props;
-        const {handleSubmit, fields: {name}} = this.props;
-        name.value = selected.get('selected').get('name');
-
+        const {selected, handleSubmit, fields: {name}} = this.props;
         return (
             <div className="edit-bank-page">
-                <h2>Edit {id}</h2>
+                <h2>Edit {selected.get('id')}</h2>
                 <section id="bankform" className="outer-wrapper">
                     <div className="inner-wrapper">
                         <div className="container">
