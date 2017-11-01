@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 @RestController
 @RequestMapping(value = "/banks")
@@ -38,22 +39,22 @@ public class BankController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Bank> all(){
+    public Future<List<Bank>> all(){
        return service.getAll();
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-    public Bank save(@RequestBody Bank bank){
+    public Future<Bank> save(@RequestBody Bank bank){
         return service.save(bank);
     }
 
     @RequestMapping(method = RequestMethod.PUT, consumes = "application/json")
-    public Bank update(@RequestBody Bank bank){
+    public Future<Bank> update(@RequestBody Bank bank){
         return service.update(bank);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, consumes = "application/json")
-    public Bank delete(@RequestBody Bank bank){
+    public Future<Bank> delete(@RequestBody Bank bank){
         return service.delete(bank);
     }
 }

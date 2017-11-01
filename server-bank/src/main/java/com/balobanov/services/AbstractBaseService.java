@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.security.RolesAllowed;
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 @Transactional
 abstract public class AbstractBaseService<T extends BaseModel, I extends Serializable> implements com.balobanov.services.abstraction.BaseService<T> {
@@ -38,23 +40,22 @@ abstract public class AbstractBaseService<T extends BaseModel, I extends Seriali
     @Transactional(readOnly = true)
     @RolesAllowed("ROLE_USER")
     @PostFilter("hasPermission(filterObject, 'READ')")
-    public List<T> getAll() {
-        return dao.findAll();
+    public Future<List<T>> getAll() {
+        return CompletableFuture.supplyAsync(() -> dao.findAll());
     }
 
     @Override
-    public T save(T t) {
-        return dao.save(t);
+    public Future<T> save(T t) {
+        return CompletableFuture.supplyAsync(() -> dao.save(t));
     }
 
     @Override
-    public T update(T t) {
-        return dao.save(t);
+    public Future<T> update(T t) {
+        return CompletableFuture.supplyAsync(() -> dao.save(t));
     }
 
     @Override
-    public T delete(T t) {
-        dao.delete(t);
-        return t;
+    public Future<T> delete(T t) {
+        return CompletableFuture.supplyAsync(() -> {dao.delete(t); return t;});
     }
 }
