@@ -1,10 +1,11 @@
 package com.balobanov.services.abstraction;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 public interface BaseService<T> {
-    List<T> getAll();
-    T save(T t);
-    T update(T t);
-    T delete(T t);
+    Future<List<T>> getAll();
+    Future<T> save(T t);
+    Future<T> update(T t);
+    Future<T> delete(T t);
 }
