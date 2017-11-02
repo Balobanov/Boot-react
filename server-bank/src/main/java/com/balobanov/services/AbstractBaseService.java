@@ -45,8 +45,8 @@ abstract public class AbstractBaseService<T extends BaseModel, ID extends Serial
     }
 
     @Override
-    public Future<T> save(T t) {
-        return CompletableFuture.supplyAsync(() -> dao.save(t));
+    public T save(T t) {
+        return dao.save(t);
     }
 
     @Override

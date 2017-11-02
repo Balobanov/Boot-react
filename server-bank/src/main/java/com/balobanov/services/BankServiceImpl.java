@@ -24,8 +24,7 @@ public class BankServiceImpl extends AbstractBaseService<Bank, Long, BankReposit
 
     @Override
     @RolesAllowed("ROLE_ADMIN")
-    public Future<Bank> save(Bank t) {
-        return CompletableFuture.supplyAsync(() -> {
+    public Bank save(Bank t) {
             Bank saved = dao.save(t);
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             ObjectIdentity oid = new ObjectIdentityImpl(saved.getClass(), saved.getId());
@@ -37,7 +36,6 @@ public class BankServiceImpl extends AbstractBaseService<Bank, Long, BankReposit
             acl.insertAce(4, BasePermission.ADMINISTRATION, new PrincipalSid(user.getUsername()), true);
             mutableAclService.updateAcl(acl);
            return saved;
-        });
     }
 
     @Override

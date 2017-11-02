@@ -44,7 +44,7 @@ public class BankController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-    public Future<Bank> save(@RequestBody Bank bank){
+    public Bank save(@RequestBody Bank bank){
         return service.save(bank);
     }
 

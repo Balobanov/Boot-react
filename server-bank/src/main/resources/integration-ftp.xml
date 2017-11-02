@@ -7,14 +7,14 @@
 		http://www.springframework.org/schema/integration/ftp http://www.springframework.org/schema/integration/ftp/spring-integration-ftp-4.2.xsd
 		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd">
 
-    <int-ftp:inbound-channel-adapter
-            session-factory="ftpClientFactory"
-            local-directory="file:/home/user/Desktop/filesuploaded"
-            remote-directory="files"
-            channel="nullChannel"
-            delete-remote-files="true"
-            filename-pattern="*.csv">
-        <int:poller fixed-rate="1000"/>
-    </int-ftp:inbound-channel-adapter>
+    <!--<int-ftp:inbound-channel-adapter-->
+            <!--session-factory="ftpClientFactory"-->
+            <!--local-directory="file:/home/user/Desktop/filesuploaded"-->
+            <!--remote-directory="files"-->
+            <!--channel="nullChannel"-->
+            <!--delete-remote-files="true"-->
+            <!--filename-pattern="*.csv">-->
+        <!--<int:poller fixed-rate="1000"/>-->
+    <!--</int-ftp:inbound-channel-adapter>-->
 
 </beans>
