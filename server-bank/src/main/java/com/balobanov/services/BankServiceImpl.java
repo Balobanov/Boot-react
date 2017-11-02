@@ -1,6 +1,7 @@
 package com.balobanov.services;
 
 import com.balobanov.models.Bank;
+import com.balobanov.repositories.BankRepositories;
 import com.balobanov.services.abstraction.BankService;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
@@ -19,7 +20,7 @@ import java.util.concurrent.Future;
 
 @Service
 @Transactional
-public class BankServiceImpl extends AbstractBaseService<Bank, Long> implements BankService {
+public class BankServiceImpl extends AbstractBaseService<Bank, Long, BankRepositories> implements BankService {
 
     @Override
     @RolesAllowed("ROLE_ADMIN")

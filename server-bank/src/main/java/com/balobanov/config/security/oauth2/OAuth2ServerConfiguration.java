@@ -16,6 +16,7 @@
 
 package com.balobanov.config.security.oauth2;
 
+import com.balobanov.services.abstraction.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -31,31 +32,21 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class OAuth2ServerConfiguration {
 
 	private static final String RESOURCE_ID = "restservice";
 
+	@Autowired
+	private static UserDetailService userDetailService;
+
 	@Configuration
 	@EnableResourceServer
-	protected static class ResourceServerConfiguration extends
-            ResourceServerConfigurerAdapter {
-
-//		@Bean
-//		public RoleHierarchyImpl roleHierarchy() {
-//			RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-//			roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_DBA ROLE_DBA > ROLE_USER ");
-//			return roleHierarchy;
-//		}
-//
-//		private SecurityExpressionHandler<FilterInvocation> webExpressionHandler() {
-//			DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
-//			defaultWebSecurityExpressionHandler.setRoleHierarchy(roleHierarchy());
-//			return defaultWebSecurityExpressionHandler;
-//		}
+	protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
 		@Override
 		public void configure(ResourceServerSecurityConfigurer resources) {
@@ -67,19 +58,22 @@ public class OAuth2ServerConfiguration {
 		public void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable()
 				.authorizeRequests()
-//					.expressionHandler(webExpressionHandler())
 					.antMatchers("/**").fullyAuthenticated()
 					.antMatchers("/oauth/token", "/signup").permitAll();
 		}
-
 	}
 
 	@Configuration
 	@EnableAuthorizationServer
-	protected static class AuthorizationServerConfiguration extends
-            AuthorizationServerConfigurerAdapter {
+	protected static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-		private TokenStore tokenStore = new InMemoryTokenStore();
+		@Autowired
+		private DataSource dataSource;
+
+		@Bean
+		public JdbcTokenStore jdbcTokenStore() {
+			return new JdbcTokenStore(dataSource);
+		}
 
 		@Autowired
 		@Qualifier("authenticationManagerBean")
@@ -89,8 +83,9 @@ public class OAuth2ServerConfiguration {
 		public void configure(AuthorizationServerEndpointsConfigurer endpoints)
 				throws Exception {
 			endpoints
-				.tokenStore(this.tokenStore)
-				.authenticationManager(this.authenticationManager);
+				.tokenStore(jdbcTokenStore())
+				.authenticationManager(this.authenticationManager)
+				.userDetailsService(userDetailService);
 		}
 
 		@Override
@@ -110,10 +105,9 @@ public class OAuth2ServerConfiguration {
 		public DefaultTokenServices tokenServices() {
 			DefaultTokenServices tokenServices = new DefaultTokenServices();
 			tokenServices.setSupportRefreshToken(true);
-			tokenServices.setTokenStore(this.tokenStore);
+			tokenServices.setTokenStore(jdbcTokenStore());
 			return tokenServices;
 		}
-
 	}
 
 }

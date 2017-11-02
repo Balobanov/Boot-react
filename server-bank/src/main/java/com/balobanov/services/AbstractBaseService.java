@@ -15,9 +15,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 @Transactional
-abstract public class AbstractBaseService<T extends BaseModel, I extends Serializable> implements com.balobanov.services.abstraction.BaseService<T> {
+abstract public class AbstractBaseService<T extends BaseModel, ID extends Serializable, DAO extends JpaRepository<T, ID>> implements com.balobanov.services.abstraction.BaseService<T> {
 
-    protected JpaRepository<T, I> dao;
+    protected DAO dao;
     protected MutableAclService mutableAclService;
     protected ObjectIdentityRetrievalStrategy identityRetrievalStrategy;
 
@@ -32,7 +32,7 @@ abstract public class AbstractBaseService<T extends BaseModel, I extends Seriali
     }
 
     @Autowired
-    public void setDao(JpaRepository<T, I> dao) {
+    public void setDao(DAO dao) {
         this.dao = dao;
     }
 
