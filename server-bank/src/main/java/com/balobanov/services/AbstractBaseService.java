@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 abstract public class AbstractBaseService<T extends BaseModel, ID extends Serializable, DAO extends JpaRepository<T, ID>> implements com.balobanov.services.abstraction.BaseService<T> {
 
     protected DAO dao;
@@ -45,8 +45,8 @@ abstract public class AbstractBaseService<T extends BaseModel, ID extends Serial
     }
 
     @Override
-    public Future<T> save(T t) {
-        return CompletableFuture.supplyAsync(() -> dao.save(t));
+    public T save(T t) {
+        return dao.save(t);
     }
 
     @Override

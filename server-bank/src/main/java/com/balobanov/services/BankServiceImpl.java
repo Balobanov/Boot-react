@@ -1,7 +1,7 @@
 package com.balobanov.services;
 
 import com.balobanov.models.Bank;
-import com.balobanov.repositories.BankRepositories;
+import com.balobanov.repositories.BankRepository;
 import com.balobanov.services.abstraction.BankService;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
@@ -15,17 +15,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 @Service
-@Transactional
-public class BankServiceImpl extends AbstractBaseService<Bank, Long, BankRepositories> implements BankService {
+@Transactional(rollbackFor = Exception.class)
+public class BankServiceImpl extends AbstractBaseService<Bank, Long, BankRepository> implements BankService {
 
     @Override
     @RolesAllowed("ROLE_ADMIN")
-    public Future<Bank> save(Bank t) {
-        return CompletableFuture.supplyAsync(() -> {
+    public Bank save(Bank t) {
             Bank saved = dao.save(t);
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             ObjectIdentity oid = new ObjectIdentityImpl(saved.getClass(), saved.getId());
@@ -37,7 +35,6 @@ public class BankServiceImpl extends AbstractBaseService<Bank, Long, BankReposit
             acl.insertAce(4, BasePermission.ADMINISTRATION, new PrincipalSid(user.getUsername()), true);
             mutableAclService.updateAcl(acl);
            return saved;
-        });
     }
 
     @Override
