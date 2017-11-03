@@ -16,7 +16,7 @@
 
 package com.balobanov.config.security.oauth2;
 
-import com.balobanov.services.abstraction.UserDetailService;
+import com.balobanov.services.abstraction.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +42,7 @@ public class OAuth2ServerConfiguration {
 	private static final String RESOURCE_ID = "restservice";
 
 	@Autowired
-	private static UserDetailService userDetailService;
+	private static UserService userService;
 
 	@Configuration
 	@EnableResourceServer
@@ -85,7 +85,7 @@ public class OAuth2ServerConfiguration {
 			endpoints
 				.tokenStore(jdbcTokenStore())
 				.authenticationManager(this.authenticationManager)
-				.userDetailsService(userDetailService);
+				.userDetailsService(userService);
 		}
 
 		@Override

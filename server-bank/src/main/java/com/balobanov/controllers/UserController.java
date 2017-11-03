@@ -1,8 +1,10 @@
 package com.balobanov.controllers;
 
-import com.balobanov.models.User;
+import com.balobanov.exceptions.ApplicationException;
+import com.balobanov.exceptions.EmailDoesNotExists;
+import com.balobanov.services.abstraction.AuthFlowService;
 import com.balobanov.services.abstraction.RoleService;
-import com.balobanov.services.abstraction.UserDetailService;
+import com.balobanov.services.abstraction.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
 import java.security.Principal;
 import java.util.Map;
 
@@ -17,45 +20,40 @@ import java.util.Map;
 @RequestMapping(value = "/user")
 public class UserController {
 
-    private UserDetailService userDetailService;
+    private UserService userService;
 
-    private RoleService roleService;
+    private AuthFlowService authFlowService;
 
     @RequestMapping(value = "/me", method = RequestMethod.GET, produces = "application/json")
     public UserDetails me(Principal principal) {
-        return userDetailService.loadUserByUsername(principal.getName());
+        return userService.loadUserByUsername(principal.getName());
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST, consumes = "application/json")
     public void newUser(@RequestBody Map<String, ?> params) {
-        String firstName = (String) params.get("firstName");
-        String lastName = (String) params.get("lastName");
-        String password = (String) params.get("password");
+        authFlowService.registration(params);
+    }
+
+    @RequestMapping(value = "/password/request", method = RequestMethod.POST)
+    public void restorePasswordRequest(@RequestBody Map<String, ?> params) throws EmailDoesNotExists, MessagingException {
         String email = (String) params.get("email");
+        authFlowService.newPasswordRequest(email);
+    }
 
-        User newUser = new User();
-            newUser.setFirstName(firstName);
-            newUser.setLastName(lastName);
-            newUser.setPassword(password);
-            newUser.setEmail(email);
-
-            newUser.setAccountNonExpired(true);
-            newUser.setAccountNonLocked(true);
-            newUser.setCredentialsNonExpired(true);
-            newUser.setEnabled(true);
-
-            newUser.setRoles(roleService.getByRoles("ROLE_USER"));
-
-        userDetailService.save(newUser);
+    @RequestMapping(value = "/password/restore", method = RequestMethod.POST)
+    public void restorePasswordRestore(@RequestBody Map<String, ?> params) throws ApplicationException, MessagingException {
+        String email = (String) params.get("email");
+        String code = (String) params.get("code");
+        authFlowService.newPasswordRestore(code,email);
     }
 
     @Autowired
-    public void setUserDetailService(UserDetailService userDetailService) {
-        this.userDetailService = userDetailService;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     @Autowired
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
+    public void setAuthFlowService(AuthFlowService authFlowService) {
+        this.authFlowService = authFlowService;
     }
 }
