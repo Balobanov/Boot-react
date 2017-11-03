@@ -81,7 +81,7 @@ public class BankJob {
 
     @Bean
     public Step readBanksFromDb() {
-        return stepBuilderFactory.get("step1")
+        return stepBuilderFactory.get("readBanksFromDb")
                 .<Bank, Bank>chunk(10)
                 .reader(pagingItemReader())
                 .processor(bank -> {
@@ -94,7 +94,7 @@ public class BankJob {
 
     @Bean
     public Job banksToConsole() {
-        return jobBuilderFactory.get("helloWorldJob")
+        return jobBuilderFactory.get("banksToConsole")
                 .start(readBanksFromDb())
                 .build();
     }
