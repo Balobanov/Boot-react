@@ -2,24 +2,29 @@ package com.balobanov.batch;
 
 import com.balobanov.batch.mappers.BankRowMapper;
 import com.balobanov.models.Bank;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.Order;
 import org.springframework.batch.item.database.support.MySqlPagingQueryProvider;
+import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.FlatFileItemWriter;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
 import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
+import org.springframework.integration.annotation.InboundChannelAdapter;
+import org.springframework.integration.ftp.config.FtpInboundChannelAdapterParser;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
@@ -37,6 +42,9 @@ public class BankJob {
 
     @Autowired
     private DataSource dataSource;
+
+    @Value("{local.folder}")
+    private String localFolder;
 
     @Bean
     public JdbcPagingItemReader<Bank> pagingItemReader() {
@@ -62,9 +70,37 @@ public class BankJob {
     }
 
     @Bean
+    @StepScope
+    public FlatFileItemReader<Bank> reader(@Value("#{jobParameters[pathToFile]}") String pathToFile){
+
+        FlatFileItemReader<Bank> itemReader = new FlatFileItemReader<>();
+
+        DefaultLineMapper<Bank> lineMapper = new DefaultLineMapper<>();
+
+        DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+        tokenizer.setNames(new String[] { "id", "name"});
+        tokenizer.setDelimiter(",");
+
+        FieldSetMapper<Bank> fieldSetMapper = fieldSet -> {
+            Bank bank = new Bank();
+            bank.setId(fieldSet.readLong("id"));
+            bank.setName(fieldSet.readString("name"));
+            return bank;
+        };
+
+        lineMapper.setLineTokenizer(tokenizer);
+        lineMapper.setFieldSetMapper(fieldSetMapper);
+
+        itemReader.setLineMapper(lineMapper);
+        itemReader.setResource(new FileSystemResource(pathToFile));
+        return itemReader;
+    }
+
+
+    @Bean
     public ItemWriter<Bank> customerItemWriter() {
         FlatFileItemWriter<Bank> writer = new FlatFileItemWriter<>();
-        writer.setResource(new FileSystemResource("/home/user/Desktop/filesuploaded/" + LocalDateTime.now() + ".csv"));
+        writer.setResource(new FileSystemResource(localFolder + LocalDateTime.now() +  ".csv"));
         writer.setShouldDeleteIfExists(true);
 
         DelimitedLineAggregator<Bank> delimitedLineAggregator = new DelimitedLineAggregator<>();
@@ -81,9 +117,9 @@ public class BankJob {
 
     @Bean
     public Step readBanksFromDb() {
-        return stepBuilderFactory.get("readBanksFromDb")
+        return stepBuilderFactory.get("readAndWriteCsvFileStep")
                 .<Bank, Bank>chunk(10)
-                .reader(pagingItemReader())
+                .reader(reader(null))
                 .processor(bank -> {
                     System.out.println("processor");
                     return bank;
@@ -93,8 +129,8 @@ public class BankJob {
     }
 
     @Bean
-    public Job banksToConsole() {
-        return jobBuilderFactory.get("banksToConsole")
+    public Job banksFtpCsvJob() {
+        return jobBuilderFactory.get("banksFtpCsvJob")
                 .start(readBanksFromDb())
                 .build();
     }
