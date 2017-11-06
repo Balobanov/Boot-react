@@ -1,22 +1,36 @@
 package com.balobanov.config.integration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.core.annotation.Order;
 import org.springframework.integration.ftp.session.DefaultFtpSessionFactory;
 
 @Configuration
 @ImportResource("classpath:integration-ftp.xml")
 public class Ftp {
 
+    @Value("${ftp.host}")
+    private String host;
+
+    @Value("${ftp.port}")
+    private Integer port;
+
+    @Value("${ftp.user}")
+    private String user;
+
+    @Value("${ftp.password}")
+    private String password;
+
     @Bean(name = "ftpClientFactory")
     public DefaultFtpSessionFactory ftpClientFactory(){
         DefaultFtpSessionFactory defaultFtpSessionFactory = new DefaultFtpSessionFactory();
 
-        defaultFtpSessionFactory.setHost("localhost");
-        defaultFtpSessionFactory.setPort(21);
-        defaultFtpSessionFactory.setUsername("ftptest");
-        defaultFtpSessionFactory.setPassword("111111");
+        defaultFtpSessionFactory.setHost(host);
+        defaultFtpSessionFactory.setPort(port);
+        defaultFtpSessionFactory.setUsername(user);
+        defaultFtpSessionFactory.setPassword(password);
 
         return defaultFtpSessionFactory;
     }

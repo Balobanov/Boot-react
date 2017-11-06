@@ -1,0 +1,43 @@
+{
+  "properties": [
+    {
+      "name": "banks.ftp.folder",
+      "type": "java.lang.String",
+      "description": "Description for banks.ftp.folder."
+    },
+    {
+      "name": "local.folder",
+      "type": "java.lang.String",
+      "description": "Description for local.folder."
+    },
+    {
+      "name": "ftp.user",
+      "type": "java.lang.String",
+      "description": "Description for ftp.user."
+    },
+    {
+      "name": "ftp.password",
+      "type": "java.lang.String",
+      "description": "Description for ftp.password."
+    },
+    {
+      "name": "ftp.host",
+      "type": "java.lang.String",
+      "description": "Description for ftp.host."
+    },
+    {
+      "name": "ftp.port",
+      "type": "java.lang.Integer",
+      "description": "Description for ftp.port."
+    },
+    {
+      "name": "banks.local.folder",
+      "type": "java.lang.String",
+      "description": "Description for banks.local.folder."
+    },
+    {
+      "name": "banks.remote.ftp.folder",
+      "type": "java.lang.String",
+      "description": "Description for banks.remote.ftp.folder."
+    }
+  ] }

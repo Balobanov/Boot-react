@@ -27,6 +27,7 @@ import org.springframework.integration.annotation.InboundChannelAdapter;
 import org.springframework.integration.ftp.config.FtpInboundChannelAdapterParser;
 
 import javax.sql.DataSource;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class BankJob {
     @Autowired
     private DataSource dataSource;
 
-    @Value("{local.folder}")
+    @Value("${local.folder}")
     private String localFolder;
 
     @Bean

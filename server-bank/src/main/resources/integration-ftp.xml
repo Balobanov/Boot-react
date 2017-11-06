@@ -11,8 +11,8 @@
     <int-ftp:inbound-channel-adapter
             id="ftppoller"
             session-factory="ftpClientFactory"
-            local-directory="file:/home/user/Desktop/filesuploaded"
-            remote-directory="files"
+            local-directory="${local.folder}"
+            remote-directory="${banks.remote.ftp.folder}"
             channel="ftpInboundChannel"
             delete-remote-files="true"
             filename-pattern="*.csv">
