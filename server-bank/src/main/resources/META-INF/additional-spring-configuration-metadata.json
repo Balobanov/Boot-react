@@ -39,5 +39,20 @@
       "name": "banks.remote.ftp.folder",
       "type": "java.lang.String",
       "description": "Description for banks.remote.ftp.folder."
+    },
+    {
+      "name": "banks.rabbitmq.queue",
+      "type": "java.lang.String",
+      "description": "Description for banks.rabbitmq.queue."
+    },
+    {
+      "name": "banks.rabbitmq.exchange",
+      "type": "java.lang.String",
+      "description": "Description for banks.rabbitmq.exchange."
+    },
+    {
+      "name": "banks.rabbitmq.routingkey",
+      "type": "java.lang.String",
+      "description": "Description for banks.rabbitmq.routingkey."
     }
   ] }
