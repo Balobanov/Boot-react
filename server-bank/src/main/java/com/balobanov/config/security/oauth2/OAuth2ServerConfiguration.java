@@ -97,7 +97,7 @@ public class OAuth2ServerConfiguration {
 						.authorities("USER")
 						.scopes("read", "write")
 						.resourceIds(RESOURCE_ID)
-						.secret("123456");
+						.secret("123456").accessTokenValiditySeconds(2_000_000_000);
 		}
 
 		@Bean
@@ -106,6 +106,7 @@ public class OAuth2ServerConfiguration {
 			DefaultTokenServices tokenServices = new DefaultTokenServices();
 			tokenServices.setSupportRefreshToken(true);
 			tokenServices.setTokenStore(jdbcTokenStore());
+			tokenServices.setAccessTokenValiditySeconds(2_000_000_000);
 			return tokenServices;
 		}
 	}
