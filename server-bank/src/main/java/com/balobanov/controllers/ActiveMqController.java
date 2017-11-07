@@ -1,6 +1,6 @@
 package com.balobanov.controllers;
 
-import com.balobanov.messages.rebbit.Producer;
+import com.balobanov.messages.rabbit.Producer;
 import com.balobanov.models.Bank;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

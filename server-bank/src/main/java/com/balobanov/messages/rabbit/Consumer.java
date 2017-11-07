@@ -1,4 +1,4 @@
-package com.balobanov.messages.rebbit;
+package com.balobanov.messages.rabbit;
 
 import com.balobanov.models.Bank;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
