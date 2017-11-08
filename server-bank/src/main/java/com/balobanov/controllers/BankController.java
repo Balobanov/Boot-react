@@ -43,7 +43,7 @@ public class BankController {
        return service.getAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public Bank save(@RequestBody Bank bank){
         return service.save(bank);
     }
