@@ -4,6 +4,7 @@ import com.balobanov.batch.mappers.BankRowMapper;
 import com.balobanov.models.Bank;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -33,6 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@EnableBatchProcessing
 public class BankJob {
 
     @Autowired

@@ -27,3 +27,31 @@ public class TransactionManagement implements TransactionManagementConfigurer {
         return transactionManager();
     }
 }
+
+
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+//        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+//        em.setDataSource(dataSource);
+//        em.setPackagesToScan("com.balobanov.models");
+//
+//        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+//        em.setJpaVendorAdapter(vendorAdapter);
+//        em.setJpaProperties(additionalProperties());
+//
+//        return em;
+//    }
+//
+//    private Properties additionalProperties() {
+//        Properties properties = new Properties();
+//        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+//        return properties;
+//    }
+//
+//    @Bean
+//    public PlatformTransactionManager transactionManager(){
+//        JpaTransactionManager transactionManager = new JpaTransactionManager();
+//        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject() );
+//        return transactionManager;
+//    }
