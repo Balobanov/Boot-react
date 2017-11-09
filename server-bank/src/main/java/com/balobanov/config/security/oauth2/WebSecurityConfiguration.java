@@ -29,7 +29,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private UserService userService;
@@ -59,4 +59,5 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
+
 }
