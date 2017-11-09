@@ -1,10 +1,9 @@
-package com.balobanov.batch;
+package com.balobanov.batch.jobs;
 
 import com.balobanov.batch.mappers.BankRowMapper;
 import com.balobanov.models.Bank;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -24,26 +23,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.integration.annotation.InboundChannelAdapter;
-import org.springframework.integration.ftp.config.FtpInboundChannelAdapterParser;
 
 import javax.sql.DataSource;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@EnableBatchProcessing
+//@EnableBatchProcessing
 public class BankJob {
 
-    @Autowired
     private JobBuilderFactory jobBuilderFactory;
-
-    @Autowired
     private StepBuilderFactory stepBuilderFactory;
-
-    @Autowired
     private DataSource dataSource;
 
     @Value("${local.folder}")
@@ -136,5 +127,20 @@ public class BankJob {
         return jobBuilderFactory.get("banksFtpCsvJob")
                 .start(readBanksFromDb())
                 .build();
+    }
+
+    @Autowired
+    public void setJobBuilderFactory(JobBuilderFactory jobBuilderFactory) {
+        this.jobBuilderFactory = jobBuilderFactory;
+    }
+
+    @Autowired
+    public void setStepBuilderFactory(StepBuilderFactory stepBuilderFactory) {
+        this.stepBuilderFactory = stepBuilderFactory;
+    }
+
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }

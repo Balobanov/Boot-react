@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class Producer {
 
-    @Autowired
-    @Qualifier(value = "amqpTemplate")
     private AmqpTemplate amqpTemplate;
 
     @Value("${banks.rabbitmq.exchange}")
@@ -23,5 +21,11 @@ public class Producer {
     public void produce(Bank bank){
         amqpTemplate.convertAndSend(exchange, routingkey, bank);
         System.out.println("Send msg = " + bank);
+    }
+
+    @Autowired
+    @Qualifier(value = "amqpTemplate")
+    public void setAmqpTemplate(AmqpTemplate amqpTemplate) {
+        this.amqpTemplate = amqpTemplate;
     }
 }

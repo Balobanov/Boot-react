@@ -24,7 +24,7 @@
     <int:channel id="outboundJobRequestChannel"/>
 
     <int:transformer input-channel="ftpInboundChannel" output-channel="jobLaunchReplyChannel" method="toRequest">
-        <bean class="com.balobanov.batch.FileMessageToJobRequest">
+        <bean class="com.balobanov.batch.launching.via.integration.FileMessageToJobRequest">
             <property name="job" ref="banksFtpCsvJob"/>
         </bean>
     </int:transformer>

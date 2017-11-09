@@ -1,4 +1,4 @@
-package com.balobanov.batch;
+package com.balobanov.batch.launching.via.integration;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
