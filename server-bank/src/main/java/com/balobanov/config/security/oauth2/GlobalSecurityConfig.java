@@ -17,7 +17,6 @@ import java.util.concurrent.Future;
 @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true, securedEnabled = true)
 public class GlobalSecurityConfig extends GlobalMethodSecurityConfiguration {
 
-    @Autowired
     private AclPermissionEvaluator aclPermissionEvaluator;
 
     @Override
@@ -42,5 +41,10 @@ public class GlobalSecurityConfig extends GlobalMethodSecurityConfiguration {
             }
             return super.filter(filterTarget, filterExpression, ctx);
         }
+    }
+
+    @Autowired
+    public void setAclPermissionEvaluator(AclPermissionEvaluator aclPermissionEvaluator) {
+        this.aclPermissionEvaluator = aclPermissionEvaluator;
     }
 }

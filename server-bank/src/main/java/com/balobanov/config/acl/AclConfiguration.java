@@ -19,7 +19,6 @@ import javax.sql.DataSource;
 @EnableCaching
 public class AclConfiguration {
 
-    @Autowired
     private DataSource dataSource;
 
     @Bean
@@ -48,5 +47,10 @@ public class AclConfiguration {
     @Autowired
     public AclPermissionEvaluator aclPermissionEvaluator(AclService aclService) {
         return new AclPermissionEvaluator(aclService);
+    }
+
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }

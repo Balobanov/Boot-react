@@ -1,4 +1,4 @@
-package com.balobanov.batch;
+package com.balobanov.batch.post.processing;
 
 import org.springframework.batch.core.JobExecution;
 import org.springframework.messaging.Message;

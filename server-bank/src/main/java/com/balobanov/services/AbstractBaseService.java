@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.acls.model.MutableAclService;
 import org.springframework.security.acls.model.ObjectIdentityRetrievalStrategy;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.security.RolesAllowed;
@@ -14,8 +15,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
-@Transactional(rollbackFor = Exception.class)
-abstract public class AbstractBaseService<T extends BaseModel, ID extends Serializable, DAO extends JpaRepository<T, ID>> implements com.balobanov.services.abstraction.BaseService<T> {
+@Transactional(rollbackFor = {Exception.class, RuntimeException.class})
+ abstract public class AbstractBaseService<T extends BaseModel, ID extends Serializable, DAO extends JpaRepository<T, ID>> implements com.balobanov.services.abstraction.BaseService<T> {
 
     protected DAO dao;
     protected MutableAclService mutableAclService;
@@ -47,6 +48,11 @@ abstract public class AbstractBaseService<T extends BaseModel, ID extends Serial
     @Override
     public T save(T t) {
         return dao.save(t);
+    }
+
+    @Override
+    public void save(List<T> list) {
+        dao.save(list);
     }
 
     @Override

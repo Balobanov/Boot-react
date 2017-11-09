@@ -14,7 +14,6 @@ import java.util.Random;
 @RequestMapping(value = "/activemq")
 public class ActiveMqController {
 
-    @Autowired
     private Producer producer;
 
     @RequestMapping(value = "/send", method = RequestMethod.POST)
@@ -23,5 +22,10 @@ public class ActiveMqController {
         bank.setName(RandomStringUtils.random(10));
         bank.setId(new Random().nextLong());
         producer.produce(bank);
+    }
+
+    @Autowired
+    public void setProducer(Producer producer) {
+        this.producer = producer;
     }
 }

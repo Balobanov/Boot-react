@@ -11,6 +11,7 @@ import org.springframework.security.acls.model.MutableAcl;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +26,8 @@ public class BankServiceImpl extends AbstractBaseService<Bank, Long, BankReposit
     @RolesAllowed("ROLE_ADMIN")
     public Bank save(Bank t) {
             Bank saved = dao.save(t);
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            ObjectIdentity oid = new ObjectIdentityImpl(saved.getClass(), saved.getId());
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ObjectIdentity oid = new ObjectIdentityImpl(saved.getClass(), saved.getId());
             MutableAcl acl = mutableAclService.createAcl(oid);
             acl.insertAce(0, BasePermission.READ, new GrantedAuthoritySid("ROLE_USER"), true);
             acl.insertAce(1, BasePermission.READ, new PrincipalSid(user.getUsername()), true);

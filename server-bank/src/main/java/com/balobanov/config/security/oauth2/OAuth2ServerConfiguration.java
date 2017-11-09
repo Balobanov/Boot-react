@@ -40,8 +40,6 @@ import javax.sql.DataSource;
 public class OAuth2ServerConfiguration {
 
 	private static final String RESOURCE_ID = "restservice";
-
-	@Autowired
 	private static UserService userService;
 
 	@Configuration
@@ -67,16 +65,7 @@ public class OAuth2ServerConfiguration {
 	@EnableAuthorizationServer
 	protected static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-		@Autowired
 		private DataSource dataSource;
-
-		@Bean
-		public JdbcTokenStore jdbcTokenStore() {
-			return new JdbcTokenStore(dataSource);
-		}
-
-		@Autowired
-		@Qualifier("authenticationManagerBean")
 		private AuthenticationManager authenticationManager;
 
 		@Override
@@ -101,6 +90,11 @@ public class OAuth2ServerConfiguration {
 		}
 
 		@Bean
+		public JdbcTokenStore jdbcTokenStore() {
+			return new JdbcTokenStore(dataSource);
+		}
+
+		@Bean
 		@Primary
 		public DefaultTokenServices tokenServices() {
 			DefaultTokenServices tokenServices = new DefaultTokenServices();
@@ -109,6 +103,21 @@ public class OAuth2ServerConfiguration {
 			tokenServices.setAccessTokenValiditySeconds(2_000_000_000);
 			return tokenServices;
 		}
+
+		@Autowired
+		public void setDataSource(DataSource dataSource) {
+			this.dataSource = dataSource;
+		}
+
+		@Autowired
+		@Qualifier("authenticationManagerBean")
+		public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+			this.authenticationManager = authenticationManager;
+		}
 	}
 
+	@Autowired
+	public static void setUserService(UserService userService) {
+		OAuth2ServerConfiguration.userService = userService;
+	}
 }
