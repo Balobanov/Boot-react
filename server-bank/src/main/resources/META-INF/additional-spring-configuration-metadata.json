@@ -54,5 +54,10 @@
       "name": "banks.rabbitmq.routingkey",
       "type": "java.lang.String",
       "description": "Description for banks.rabbitmq.routingkey."
+    },
+    {
+      "name": "multipart.upload.files.location",
+      "type": "java.lang.String",
+      "description": "Description for multipart.upload.files.location."
     }
   ] }
