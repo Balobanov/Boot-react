@@ -32,15 +32,19 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
-    //    setTimeout(function () {
-    //        FB.login(function(response) {
-    //            console.log(response);
-    //        }, {
-    //            scope: 'public_profile, email, user_about_me, gender, last_name, name, middle_name, picture',
-    //            return_scopes: true
-    //        });
-    //
-    //    }, 1000);
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+            FB.login((response) => {
+                $.post("/api/facebook?access_token=sdssddsdsdssd", {accessToken: response.authResponse.accessToken})
+                    .then(data => {
+                        console.log(data);
+                    });
+            }, {
+                scope: 'public_profile, email, user_about_me, gender, last_name, name, middle_name, picture',
+                return_scopes: true
+            });
+        }
+    });
 </script>
 </body>
 </html>
