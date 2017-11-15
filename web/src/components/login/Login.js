@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {reduxForm} from "redux-form";
 
 import {loginRequest} from "../../actions/LoginActions";
+import {facebookLoginRequest} from "../../actions/FacebookActions";
 
 const validateFormFields = ['email', 'password'];
 const formName = 'login';
@@ -26,7 +27,8 @@ const validate = (values) => {
     state => ({
         login: state.login
     }), {
-        loginRequest
+        loginRequest,
+        facebookLoginRequest
     })
 @reduxForm({
     form: formName,
@@ -38,10 +40,24 @@ export default class Login extends PureComponent {
         super(props);
 
         this.submitLogin = this.submitLogin.bind(this);
+        this.facebookLogin = this.facebookLogin.bind(this);
     }
 
     submitLogin({email, password}) {
         this.props.loginRequest(email, password);
+    }
+
+    facebookLogin(){
+        FB.getLoginStatus((response) =>{
+            if (response.status === 'connected') {
+                FB.login((response) => {
+                    this.props.facebookLoginRequest(response.authResponse.accessToken);
+                }, {
+                    scope: 'public_profile, email, user_about_me, gender, last_name, name, middle_name, picture',
+                    return_scopes: true
+                });
+            }
+        });
     }
 
     render() {
@@ -74,6 +90,10 @@ export default class Login extends PureComponent {
                                         </div>
                                         <button action="submit" className="btn btn-default">Sign in</button>
                                     </form>
+
+                                    <div>
+                                        <button className="btn-facebook" onClick={this.facebookLogin}>Login with facebook</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

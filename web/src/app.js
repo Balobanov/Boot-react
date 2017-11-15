@@ -18,6 +18,7 @@ import Banks from "./components/bank/BankList";
 import {authToken} from "./actions/AuthActions";
 
 import "./style/main.css";
+import 'bootstrap-social/bootstrap-social.css'
 import BankEdit from "./components/bank/BankEdit";
 import Dashboard from "./components/dashboard/Dashboard";
 

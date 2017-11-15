@@ -19,6 +19,7 @@ package com.balobanov.config.security.oauth2;
 import com.balobanov.services.abstraction.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -38,9 +39,7 @@ import javax.sql.DataSource;
 
 @Configuration
 public class OAuth2ServerConfiguration {
-
-	private static final String RESOURCE_ID = "restservice";
-	private static UserService userService;
+    private static final String RESOURCE_ID = "restservice";
 
 	@Configuration
 	@EnableResourceServer
@@ -56,8 +55,9 @@ public class OAuth2ServerConfiguration {
 		public void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable()
 				.authorizeRequests()
-					.antMatchers("/**").fullyAuthenticated()
-					.antMatchers("/oauth/token", "/signup").permitAll();
+					.antMatchers("/banks").fullyAuthenticated()
+					.antMatchers("/**").permitAll();
+//					.antMatchers("/oauth/token", "/signup", "/facebook").permitAll();
 		}
 	}
 
@@ -68,12 +68,24 @@ public class OAuth2ServerConfiguration {
 		private DataSource dataSource;
 		private AuthenticationManager authenticationManager;
 
+		@Autowired
+        private  UserService userService;
+
+		@Value("${client.id}")
+		private String clientId;
+
+		@Value("${client.secret}")
+		private String clientSecret;
+
+		@Value("${access.token.validity.seconds}")
+		private Integer accessTokenValiditySeconds;
+
 		@Override
 		public void configure(AuthorizationServerEndpointsConfigurer endpoints)
 				throws Exception {
 			endpoints
 				.tokenStore(jdbcTokenStore())
-				.authenticationManager(this.authenticationManager)
+				.authenticationManager(authenticationManager)
 				.userDetailsService(userService);
 		}
 
@@ -81,12 +93,13 @@ public class OAuth2ServerConfiguration {
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 			clients
 				.inMemory()
-					.withClient("clientapp")
+					.withClient(clientId)
 						.authorizedGrantTypes("password", "refresh_token")
 						.authorities("USER")
 						.scopes("read", "write")
 						.resourceIds(RESOURCE_ID)
-						.secret("123456").accessTokenValiditySeconds(2_000_000_000);
+						.secret(clientSecret)
+						.accessTokenValiditySeconds(accessTokenValiditySeconds);
 		}
 
 		@Bean
@@ -114,10 +127,5 @@ public class OAuth2ServerConfiguration {
 		public void setAuthenticationManager(AuthenticationManager authenticationManager) {
 			this.authenticationManager = authenticationManager;
 		}
-	}
-
-	@Autowired
-	public static void setUserService(UserService userService) {
-		OAuth2ServerConfiguration.userService = userService;
 	}
 }
