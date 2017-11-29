@@ -8,7 +8,7 @@ import {LOGIN_REQUESTING} from "../constants/LoginConstants";
 import handleApiErrors from '../helpers';
 
 function loginApi (email, password) {
-    return fetch(`/api//oauth/token?grant_type=password&username=${email}&password=${password}`, {
+    return fetch(`/api/oauth/token?grant_type=password&username=${email}&password=${password}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

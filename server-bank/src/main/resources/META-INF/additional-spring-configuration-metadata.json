@@ -59,5 +59,20 @@
       "name": "multipart.upload.files.location",
       "type": "java.lang.String",
       "description": "Description for multipart.upload.files.location."
+    },
+    {
+      "name": "access.token.validity.seconds",
+      "type": "java.lang.Integer",
+      "description": "Description for access.token.validity.seconds."
+    },
+    {
+      "name": "client.secret",
+      "type": "java.lang.String",
+      "description": "Description for client.secret."
+    },
+    {
+      "name": "client.id",
+      "type": "java.lang.String",
+      "description": "Description for client.id."
     }
   ] }

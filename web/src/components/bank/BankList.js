@@ -29,19 +29,19 @@ export default class BankList extends Component {
         let stompClient;
         let dispatch = this;
 
-        let url = '/api/super-bank-app?access_token=' + this.props.auth.get('access_token');
+        //let url = '/api/super-bank-app?access_token=' + this.props.auth.get('access_token');
 
-        const socket = new SockJS(url);
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, function (frame) {
-            stompClient.subscribe('/topic/banks', (data) => {
-                switch (data.headers.event) {
-                    case 'update': {
-                        dispatch.props.banksUpdate(JSON.parse(data.body));
-                    }
-                }
-            });
-        });
+        // const socket = new SockJS(url);
+        // stompClient = Stomp.over(socket);
+        // stompClient.connect({}, function (frame) {
+        //     stompClient.subscribe('/topic/banks', (data) => {
+        //         switch (data.headers.event) {
+        //             case 'update': {
+        //                 dispatch.props.banksUpdate(JSON.parse(data.body));
+        //             }
+        //         }
+        //     });
+        // });
     }
 
     printBanks(banks) {
