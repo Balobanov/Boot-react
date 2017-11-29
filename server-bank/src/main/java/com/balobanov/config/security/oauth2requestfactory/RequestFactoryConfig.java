@@ -9,6 +9,11 @@ import org.springframework.security.oauth2.provider.request.DefaultOAuth2Request
 @Configuration
 public class RequestFactoryConfig {
 
+    /**
+     * To auth user from facebook
+     * @param clientDetailsService
+     * @return
+     */
     @Autowired
     @Bean
     public DefaultOAuth2RequestFactory defaultOAuth2RequestFactory(ClientDetailsService clientDetailsService){
