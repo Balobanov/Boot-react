@@ -13,5 +13,24 @@
     <source src="http://thenewcode.com/assets/videos/lake.mp4" type="video/mp4"/>
 </video>
 <div id="secret_bank_app"></div>
+
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId            : '880371435472299',
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v2.11'
+        });
+    };
+
+    (function(d, s, id){
+        let js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 </body>
 </html>

@@ -1,40 +1,58 @@
-/*
- * Copyright 2014-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.balobanov.controllers;
 
-import com.balobanov.data.models.User;
-import com.balobanov.repositories.sql.UserRepository;
+import com.balobanov.exceptions.ApplicationException;
+import com.balobanov.exceptions.EmailDoesNotExists;
+import com.balobanov.services.abstraction.AuthFlowService;
+import com.balobanov.services.abstraction.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
+import java.security.Principal;
+import java.util.Map;
+
 @RestController
+@RequestMapping(value = "/user")
 public class UserController {
 
-	private final UserRepository userRepository;
+    private UserService userService;
 
-	@Autowired
-	public UserController(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+    private AuthFlowService authFlowService;
 
-	@RequestMapping("/users")
-	public Iterable<User> getUsers() {
-		return userRepository.findAll();
-	}
+    @RequestMapping(value = "/me", method = RequestMethod.GET, produces = "application/json")
+    public UserDetails me(Principal principal) {
+        return userService.loadUserByUsername(principal.getName());
+    }
 
+    @RequestMapping(value = "/registration", method = RequestMethod.POST, consumes = "application/json")
+    public void newUser(@RequestBody Map<String, ?> params) {
+        authFlowService.registration(params);
+    }
+
+    @RequestMapping(value = "/password/request", method = RequestMethod.POST)
+    public void restorePasswordRequest(@RequestBody Map<String, ?> params) throws EmailDoesNotExists, MessagingException {
+        String email = (String) params.get("email");
+        authFlowService.newPasswordRequest(email);
+    }
+
+    @RequestMapping(value = "/password/restore", method = RequestMethod.POST)
+    public void restorePasswordRestore(@RequestBody Map<String, ?> params) throws ApplicationException, MessagingException {
+        String email = (String) params.get("email");
+        String code = (String) params.get("code");
+        authFlowService.newPasswordRestore(code,email);
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    public void setAuthFlowService(AuthFlowService authFlowService) {
+        this.authFlowService = authFlowService;
+    }
 }

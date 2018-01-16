@@ -1,0 +1,78 @@
+{
+  "properties": [
+    {
+      "name": "banks.ftp.folder",
+      "type": "java.lang.String",
+      "description": "Description for banks.ftp.folder."
+    },
+    {
+      "name": "local.folder",
+      "type": "java.lang.String",
+      "description": "Description for local.folder."
+    },
+    {
+      "name": "ftp.user",
+      "type": "java.lang.String",
+      "description": "Description for ftp.user."
+    },
+    {
+      "name": "ftp.password",
+      "type": "java.lang.String",
+      "description": "Description for ftp.password."
+    },
+    {
+      "name": "ftp.host",
+      "type": "java.lang.String",
+      "description": "Description for ftp.host."
+    },
+    {
+      "name": "ftp.port",
+      "type": "java.lang.Integer",
+      "description": "Description for ftp.port."
+    },
+    {
+      "name": "banks.local.folder",
+      "type": "java.lang.String",
+      "description": "Description for banks.local.folder."
+    },
+    {
+      "name": "banks.remote.ftp.folder",
+      "type": "java.lang.String",
+      "description": "Description for banks.remote.ftp.folder."
+    },
+    {
+      "name": "banks.rabbitmq.queue",
+      "type": "java.lang.String",
+      "description": "Description for banks.rabbitmq.queue."
+    },
+    {
+      "name": "banks.rabbitmq.exchange",
+      "type": "java.lang.String",
+      "description": "Description for banks.rabbitmq.exchange."
+    },
+    {
+      "name": "banks.rabbitmq.routingkey",
+      "type": "java.lang.String",
+      "description": "Description for banks.rabbitmq.routingkey."
+    },
+    {
+      "name": "multipart.upload.files.location",
+      "type": "java.lang.String",
+      "description": "Description for multipart.upload.files.location."
+    },
+    {
+      "name": "access.token.validity.seconds",
+      "type": "java.lang.Integer",
+      "description": "Description for access.token.validity.seconds."
+    },
+    {
+      "name": "client.secret",
+      "type": "java.lang.String",
+      "description": "Description for client.secret."
+    },
+    {
+      "name": "client.id",
+      "type": "java.lang.String",
+      "description": "Description for client.id."
+    }
+  ] }
