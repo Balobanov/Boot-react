@@ -1,0 +1,36 @@
+{
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "parser": "babel-eslint",
+    "rules": {
+        "no-debugger": 2,
+        "react/no-danger": 2,
+        "for-direction": 2,
+        "no-await-in-loop": 2,
+        "no-cond-assign": 2,
+        "no-console": ["error", { "allow": ["warn", "error"] }],
+        "no-alert": 2,
+        "no-constant-condition": 2,
+        "no-dupe-args": 2,
+        "no-dupe-keys": 2,
+        "no-duplicate-case": 2,
+        "no-empty": 2,
+        "indent": ["error", 4],
+        "comma-dangle": 0
+    },
+    "plugins": [
+        "react", "import"
+    ],
+    "settings": {
+        "import/parser": "babel-eslint",
+        "import/resolve": {
+            "moduleDirectory": ["node_modules", "src"]
+        }
+    },
+    "extends": [
+        "eslint:recommended",
+        "airbnb"
+    ]
+}
