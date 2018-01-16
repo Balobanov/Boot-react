@@ -3,6 +3,8 @@ package com.balobanov.models.solr;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;
 
+import java.util.List;
+
 public class SolrBank {
 
     @Id
@@ -11,6 +13,17 @@ public class SolrBank {
 
     @Field
     private String name;
+
+    @Field
+    private List<String> users;
+
+    public List<String> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<String> users) {
+        this.users = users;
+    }
 
     public Long getId() {
         return id;

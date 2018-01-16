@@ -1,14 +1,10 @@
-import {AUTH_ACCESS_TOKEN, AUTH_CLEAR} from "../constants/AuthConstants";
+import { AUTH_ACCESS_TOKEN, AUTH_CLEAR } from '../constants/AuthConstants';
 
-export const authToken = (auth) => {
-  return {
-      type: AUTH_ACCESS_TOKEN,
-      auth
-  };
-};
+export const authToken = auth => ({
+    type: AUTH_ACCESS_TOKEN,
+    auth
+});
 
-export const authClear = () => {
-    return {
-        type: AUTH_CLEAR
-    };
-};
+export const authClear = () => ({
+    type: AUTH_CLEAR
+});
