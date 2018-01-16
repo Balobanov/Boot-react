@@ -1,7 +1,5 @@
-import {LOGOUT_REQUESTING} from "../constants/LogoutConstants";
+import { LOGOUT_REQUESTING } from '../constants/LogoutConstants';
 
-export const logoutRequest = () => {
-  return {
+export const logoutRequest = () => ({
     type: LOGOUT_REQUESTING
-  };
-};
+});

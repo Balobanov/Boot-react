@@ -1,15 +1,12 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import SockJS from "sockjs-client";
-import {Stomp} from "stompjs/lib/stomp";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import SockJS from 'sockjs-client';
+import { Stomp } from 'stompjs/lib/stomp';
 
-@connect(
-    state => ({
-        auth: state.auth
-    }), {}
-)
+@connect(state => ({
+    auth: state.auth,
+}), {})
 export default class Dashboard extends Component {
-
     constructor(props) {
         super(props);
         // let stompClient;
@@ -35,7 +32,7 @@ export default class Dashboard extends Component {
             <div id="dashboard-page">
                 <h1>Dashboard</h1>
                 {this.props.children}
-            </div>
+          </div>
         );
     }
 }

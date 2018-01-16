@@ -1,14 +1,12 @@
-import React, {PureComponent} from "react";
-import {Link} from "react-router";
-import {connect} from "react-redux";
-import {logoutRequest} from "../../actions/LogoutActions";
+import React, { PureComponent } from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { logoutRequest } from '../../actions/LogoutActions';
 
-@connect(
-    state => ({
-        auth: state.auth
-    }), {logoutRequest})
+@connect(state => ({
+    auth: state.auth,
+}), { logoutRequest })
 export default class NavBar extends PureComponent {
-
     constructor(props) {
         super(props);
 
@@ -21,8 +19,8 @@ export default class NavBar extends PureComponent {
         return (
             <div className="nav navbar-nav navbar-right">
                 <Link to="/signup" className="btn btn-default navbar-btn nav-btn-margin">Sign up</Link>
-                <Link to="/login" className="btn btn-default navbar-btn nav-btn-margin">Login</Link>
-            </div>
+            <Link to="/login" className="btn btn-default navbar-btn nav-btn-margin">Login</Link>
+          </div>
         );
     }
 
@@ -34,7 +32,7 @@ export default class NavBar extends PureComponent {
         return (
             <div className="nav navbar-nav navbar-right">
                 <button type="button" onClick={this.logout} className="btn btn-default navbar-btn nav-btn-margin">Logout</button>
-            </div>
+          </div>
         );
     }
 
@@ -46,21 +44,21 @@ export default class NavBar extends PureComponent {
                     <div className="container-fluid">
                         <div className="navbar-header">
                             <Link to="/account" className="navbar-brand" href="#">Dashboard</Link>
-                        </div>
+                      </div>
                         <ul className="nav navbar-nav">
                             <li><Link to="/">Home</Link></li>
                             {
                                 this.props.auth.get('access_token') ? <li><Link to="/account/banks">Banks</Link></li> : null
                             }
-                        </ul>
+                      </ul>
                         {
                             this.props.auth.get('access_token')
                                 ? this.authorized()
                                 : this.unauthorized()
                         }
-                    </div>
-                </nav>
-            </div>
+                  </div>
+              </nav>
+          </div>
         );
     }
 }
