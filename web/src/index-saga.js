@@ -10,6 +10,6 @@ export default function* IndexSaga() {
         signUpWatcher(),
         banksWatcher(),
         logoutWatcher(),
-        facebookWatcher()
+        facebookWatcher(),
     ];
 }

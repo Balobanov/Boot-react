@@ -1,25 +1,22 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Modal from 'react-modal';
 
-import SockJS from "sockjs-client";
-import {Stomp} from "stompjs/lib/stomp";
+import SockJS from 'sockjs-client';
+import { Stomp } from 'stompjs/lib/stomp';
 
-import {banksRequest, banksUpdate, banksEdit} from "../../actions/BankActions";
-import BankEdit from "./BankEdit";
+import { banksRequest, banksUpdate, banksEdit } from '../../actions/BankActions';
+import BankEdit from './BankEdit';
 
-@connect(
-    state => ({
-        banks: state.banks,
-        auth: state.auth
-    }), {
-        banksRequest,
-        banksEdit,
-        banksUpdate
-    }
-)
+@connect(state => ({
+    banks: state.banks,
+    auth: state.auth,
+}), {
+    banksRequest,
+    banksEdit,
+    banksUpdate,
+})
 export default class BankList extends Component {
-
     constructor(props) {
         super(props);
 
@@ -27,9 +24,9 @@ export default class BankList extends Component {
         this.printBanks = this.printBanks.bind(this);
 
         let stompClient;
-        let dispatch = this;
+        const dispatch = this;
 
-        //let url = '/api/super-bank-app?access_token=' + this.props.auth.get('access_token');
+        // let url = '/api/super-bank-app?access_token=' + this.props.auth.get('access_token');
 
         // const socket = new SockJS(url);
         // stompClient = Stomp.over(socket);
@@ -45,39 +42,36 @@ export default class BankList extends Component {
     }
 
     printBanks(banks) {
-        const {banksEdit} = this.props;
+        const { banksEdit } = this.props;
 
-        return banks.get('banks').map(bank => {
-            return (
-                <tr key={bank.get('id')}>
-                    <td>{bank.get('id')}</td>
-                    <td><button className="btn btn-link" onClick={()=>banksEdit(bank.get('id'))}>{bank.get('name')}</button></td>
-                </tr>
-            )
-        });
+        return banks.get('banks').map(bank => (
+            <tr key={bank.get('id')}>
+                <td>{bank.get('id')}</td>
+            <td><button className="btn btn-link" onClick={() => banksEdit(bank.get('id'))}>{bank.get('name')}</button></td>
+          </tr>
+        ));
     }
 
     render() {
-
-        const {banks} = this.props;
+        const { banks } = this.props;
         return (
             <div id="banks-page">
-                <h1>Banks</h1>
+            <h1>Banks</h1>
                 <table className="table table-bordered">
                     <thead>
-                    <tr>
+                        <tr>
                         <th>#</th>
                         <th>Name</th>
-                    </tr>
-                    </thead>
+                      </tr>
+                  </thead>
                     <tbody>
                         {this.printBanks(banks)}
-                    </tbody>
-                </table>
+                  </tbody>
+              </table>
                 {
-                    banks.get('selected') ? <BankEdit selected={banks.get('selected')}/>: null
+                    banks.get('selected') ? <BankEdit selected={banks.get('selected')} /> : null
                 }
-            </div>
+          </div>
         );
     }
 }

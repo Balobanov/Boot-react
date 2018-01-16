@@ -1,25 +1,25 @@
-import { take, fork, cancel, call, put, cancelled } from 'redux-saga/effects'
-import { browserHistory, hashHistory } from "react-router";
+import { take, fork, call, put } from 'redux-saga/effects';
+import { hashHistory } from 'react-router';
 
-import {loginFailed, loginSuccess} from "../actions/LoginActions";
-import {authToken} from "../actions/AuthActions";
-import {creditsUpdate} from "../actions/BankActions";
-import {LOGIN_REQUESTING} from "../constants/LoginConstants";
+import { loginFailed, loginSuccess } from '../actions/LoginActions';
+import { authToken } from '../actions/AuthActions';
+import { creditsUpdate } from '../actions/BankActions';
+import { LOGIN_REQUESTING } from '../constants/LoginConstants';
 import handleApiErrors from '../helpers';
 
-function loginApi (email, password) {
+function loginApi(email, password) {
     return fetch(`/api/oauth/token?grant_type=password&username=${email}&password=${password}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Basic ${btoa('clientapp:123456')}`
+            Authorization: `Basic ${btoa('clientapp:123456')}`,
         },
         // body: JSON.stringify({ email, password }),
     })
         .then(handleApiErrors)
         .then(response => response.json())
         .then(json => json)
-        .catch((error) => { throw error })
+        .catch((error) => { throw error; });
 }
 
 // function* logout () {
@@ -50,7 +50,6 @@ function* startLogin(email, password) {
     let auth;
 
     try {
-
         auth = yield call(loginApi, email, password);
         yield put(authToken(auth));
 
@@ -58,11 +57,9 @@ function* startLogin(email, password) {
         localStorage.setItem('auth', JSON.stringify(auth));
 
         hashHistory.push('/account');
-    }
-    catch (error) {
+    } catch (error) {
         yield put(loginFailed(error));
-    }
-    finally {
+    } finally {
         // if (yield cancelled()) {
         //     hashHistory.push('/login')
         // }
@@ -72,10 +69,8 @@ function* startLogin(email, password) {
 }
 
 export default function* loginWatcher() {
-
     while (true) {
-
-        const {email, password} = yield take(LOGIN_REQUESTING);
+        const { email, password } = yield take(LOGIN_REQUESTING);
 
         const logginingTask = yield fork(startLogin, email, password);
         // const logginingTask = yield fork(startLogin, "admin", "12345");
