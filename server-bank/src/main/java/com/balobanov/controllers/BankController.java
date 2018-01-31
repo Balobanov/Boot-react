@@ -39,7 +39,7 @@ public class BankController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Future<List<Bank>> all(){
+    public List<Bank> all(){
        return service.getAll();
     }
 

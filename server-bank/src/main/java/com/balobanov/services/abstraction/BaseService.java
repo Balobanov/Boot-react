@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.Future;
 
 public interface BaseService<T extends BaseModel> {
-    Future<List<T>> getAll();
+    List<T> getAll();
     T save(T t);
     void save(List<T> list);
     Future<T> update(T t);

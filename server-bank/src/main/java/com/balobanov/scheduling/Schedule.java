@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
-@Component
+//@Component
 public class Schedule {
 
     private JobLauncher jobLauncher;

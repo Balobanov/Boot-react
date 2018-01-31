@@ -39,10 +39,10 @@ import java.util.concurrent.Future;
 
     @Override
     @Transactional(readOnly = true)
-    @RolesAllowed("ROLE_USER")
-    @PostFilter("hasPermission(filterObject, 'READ')")
-    public Future<List<T>> getAll() {
-        return CompletableFuture.supplyAsync(() -> dao.findAll());
+//    @RolesAllowed("ROLE_USER")
+//    @PostFilter("hasPermission(filterObject, 'READ')")
+    public List<T> getAll() {
+        return dao.findAll();
     }
 
     @Override
