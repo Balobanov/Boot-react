@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Component
+/**
+ * TODO: enable Producer
+ */
+//@Component
 public class Producer {
 
     private AmqpTemplate amqpTemplate;

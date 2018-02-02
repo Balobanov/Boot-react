@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Random;
 
-@RestController
-@RequestMapping(value = "/activemq")
+/**
+ * TODO: enable ActiveMqController
+ */
+//@RestController
+//@RequestMapping(value = "/activemq")
 public class ActiveMqController {
 
     private Producer producer;
