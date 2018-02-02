@@ -56,7 +56,15 @@ public class OAuth2ServerConfiguration {
 			http.csrf().disable()
 				.authorizeRequests()
 					.antMatchers("/banks").fullyAuthenticated()
-					.antMatchers("/**").permitAll();
+					.antMatchers("/index.html",
+							"/",
+							"/*.*",
+							"/templates/**",
+							"/img/**",
+							"/js/**",
+							"/api/me",
+							"/css/**",
+							"/**").permitAll();
 //					.antMatchers("/oauth/token", "/signup", "/facebook").permitAll();
 		}
 	}

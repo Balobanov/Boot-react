@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.balobanov.controllers;
+package com.balobanov.controllers.bank;
 
 import com.balobanov.models.Bank;
 import com.balobanov.services.abstraction.BankService;

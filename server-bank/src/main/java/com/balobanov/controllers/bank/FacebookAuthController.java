@@ -1,4 +1,4 @@
-package com.balobanov.controllers;
+package com.balobanov.controllers.bank;
 
 import com.balobanov.models.User;
 import com.balobanov.services.abstraction.RoleService;
