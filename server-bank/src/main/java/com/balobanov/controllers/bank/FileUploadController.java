@@ -1,4 +1,4 @@
-package com.balobanov.controllers;
+package com.balobanov.controllers.bank;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;

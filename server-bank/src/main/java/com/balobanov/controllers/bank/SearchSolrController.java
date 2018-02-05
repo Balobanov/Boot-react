@@ -1,4 +1,4 @@
-package com.balobanov.controllers;
+package com.balobanov.controllers.bank;
 
 import com.balobanov.models.solr.SolrBank;
 import com.balobanov.repositories.solr.SolrBankRepository;

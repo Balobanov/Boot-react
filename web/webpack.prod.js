@@ -15,7 +15,7 @@ module.exports = {
         vendor: VENDOR_LIBS
     },
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.join(__dirname, './target/static'),
         filename: '[name].[hash].js'
     },
     module: {

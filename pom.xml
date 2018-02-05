@@ -42,6 +42,7 @@
         <module>server-bank</module>
         <module>web</module>
         <module>web-vue</module>
+        <module>reactwar</module>
     </modules>
 
     <build>
