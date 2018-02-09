@@ -48,7 +48,12 @@ module.exports = {
     historyApiFallback: true,
     noInfo: true,
     overlay: true,
-    port: 9000
+    port: 9000,
+    proxy: {
+      "/oauth/*": {
+        target: "http://localhost:8080",
+      },
+    }
   },
   performance: {
     hints: false
