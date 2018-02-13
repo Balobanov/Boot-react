@@ -1,13 +1,16 @@
 <template>
   <div>
     <input type="number" placeholder="Increase by" v-model="incBy"/>
-    <button @click="asyncIncreaseByInnerMethod(incBy)">asyncIncreaseBy</button>
-    <button @click="asyncIncreaseBy(incBy)">asyncIncreaseByInnerMethod</button>
+    <span v-if="!increasing">
+      <button @click="asyncIncreaseByInnerMethod(incBy)">asyncIncreaseBy</button>
+      <button @click="asyncIncreaseBy(incBy)">asyncIncreaseByInnerMethod</button>
+    </span>
   </div>
 </template>
 
 <script>
-  import {mapActions} from 'vuex';
+  import {mapActions, mapGetters} from 'vuex';
+  import {COUNTER_GET_INCREASING} from './../../types/counter/counter';
 
   import * as types from './../../types/counter/counter';
 
@@ -16,6 +19,11 @@
       return {
         incBy: 1
       }
+    },
+    computed: {
+      ...mapGetters({
+        increasing: COUNTER_GET_INCREASING
+      })
     },
     methods: {
       ...mapActions({

@@ -1,13 +1,18 @@
 <template>
   <div>
-    <counter-control></counter-control>
-    <counter-result-view></counter-result-view>
+    <div v-if="!fetching">
+      <counter-control></counter-control>
+      <counter-result-view></counter-result-view>
+    </div>
+    <div v-if="fetching">
+      <spinner></spinner>
+    </div>
   </div>
 </template>
 
 <script>
-  import {mapActions} from 'vuex';
-  import {COUNTER_ASYNC_FETCH} from './../../types/counter/counter';
+  import {mapActions, mapGetters} from 'vuex';
+  import {COUNTER_ASYNC_FETCH, COUNTER_GET_FETCHING, COUNTER_GET_INCREASING} from './../../types/counter/counter';
 
   import CounterControl from './../counter/CounterControlView.vue';
   import CounterResultView from './../counter/CounterResultView.vue';
@@ -16,6 +21,12 @@
     methods: {
       ...mapActions({
         fetchCounter: COUNTER_ASYNC_FETCH
+      }),
+
+    },
+    computed: {
+      ...mapGetters({
+        fetching: COUNTER_GET_FETCHING
       })
     },
     components: {

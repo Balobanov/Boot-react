@@ -3,7 +3,8 @@ import {router} from './../../../router/router';
 
 const state = {
   count: 0,
-  increasing: false
+  increasing: false,
+  fetching: false
 };
 
 const getters = {
@@ -13,6 +14,10 @@ const getters = {
 
   [types.COUNTER_GET_INCREASING](state){
     return state.increasing;
+  },
+
+  [types.COUNTER_GET_FETCHING](state){
+    return state.fetching;
   }
 };
 
@@ -25,18 +30,26 @@ const mutations = {
     state.count = +counter;
   },
 
-  [types.COUNTER_FETCHING_START](state) {
+  [types.COUNTER_INCREASING_START](state) {
     state.increasing = true;
   },
 
-  [types.COUNTER_FETCHING_DONE](state) {
+  [types.COUNTER_INCREASING_DONE](state) {
     state.increasing = false;
+  },
+
+  [types.COUNTER_FETCHING_START](state) {
+    state.fetching = true;
+  },
+
+  [types.COUNTER_FETCHING_DONE](state) {
+    state.fetching = false;
   }
 };
 
 const actions = {
   async [types.COUNTER_ASYNC_INCREASE_BY]({commit}, payload) {
-    commit(types.COUNTER_FETCHING_START);
+    commit(types.COUNTER_INCREASING_START);
     await fetch(`/counter`, {
       method: 'POST',
       body: JSON.stringify({by: payload}),
@@ -46,7 +59,7 @@ const actions = {
       }
     });
     commit(types.COUNTER_INCREASE, payload);
-    commit(types.COUNTER_FETCHING_DONE);
+    commit(types.COUNTER_INCREASING_DONE);
   },
 
   async [types.COUNTER_ASYNC_FETCH]({commit}) {
