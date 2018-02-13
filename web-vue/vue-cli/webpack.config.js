@@ -53,6 +53,18 @@ module.exports = {
       "/oauth/*": {
         target: "http://localhost:8080",
       },
+
+      "/user/*": {
+        target: "http://localhost:8080",
+      },
+
+      "/box/*": {
+        target: "http://localhost:8080",
+      },
+
+      "/counter/*": {
+        target: "http://localhost:8080",
+      }
     }
   },
   performance: {

@@ -56,6 +56,7 @@ public class OAuth2ServerConfiguration {
 			http.csrf().disable()
 				.authorizeRequests()
 					.antMatchers("/banks").fullyAuthenticated()
+					.antMatchers("/counter").fullyAuthenticated()
 					.antMatchers("/**").permitAll();
 //					.antMatchers("/oauth/token", "/signup", "/facebook").permitAll();
 		}
@@ -98,8 +99,8 @@ public class OAuth2ServerConfiguration {
 						.authorities("USER")
 						.scopes("read", "write")
 						.resourceIds(RESOURCE_ID)
-						.secret(clientSecret)
-						.accessTokenValiditySeconds(accessTokenValiditySeconds);
+						.secret(clientSecret);
+//						.accessTokenValiditySeconds(accessTokenValiditySeconds);
 		}
 
 		@Bean
@@ -113,7 +114,9 @@ public class OAuth2ServerConfiguration {
 			DefaultTokenServices tokenServices = new DefaultTokenServices();
 			tokenServices.setSupportRefreshToken(true);
 			tokenServices.setTokenStore(jdbcTokenStore());
-			tokenServices.setAccessTokenValiditySeconds(2_000_000_000);
+
+			/*Token*/
+//			tokenServices.setAccessTokenValiditySeconds(2_000_000_000);
 			return tokenServices;
 		}
 

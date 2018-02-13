@@ -1,4 +1,5 @@
 import * as types from "./../../../types/counter/counter"
+import {router} from './../../../router/router';
 
 const state = {
   count: 0,
@@ -20,6 +21,10 @@ const mutations = {
     state.count += +increaseBy;
   },
 
+  [types.COUNTER_SET_COUNTER](state, counter){
+    state.count = +counter;
+  },
+
   [types.COUNTER_FETCHING_START](state) {
     state.increasing = true;
   },
@@ -30,12 +35,34 @@ const mutations = {
 };
 
 const actions = {
-  [types.COUNTER_ASYNC_INCREASE_BY]({commit}, payload) {
+  async [types.COUNTER_ASYNC_INCREASE_BY]({commit}, payload) {
     commit(types.COUNTER_FETCHING_START);
-    setTimeout(() => {
-      commit(types.COUNTER_INCREASE, payload);
-      commit(types.COUNTER_FETCHING_DONE);
-    }, 1500);
+    await fetch(`/counter`, {
+      method: 'POST',
+      body: JSON.stringify({by: payload}),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.state.authorization.authorization.auth.access_token}`
+      }
+    });
+    commit(types.COUNTER_INCREASE, payload);
+    commit(types.COUNTER_FETCHING_DONE);
+  },
+
+  async [types.COUNTER_ASYNC_FETCH]({commit}) {
+    commit(types.COUNTER_FETCHING_START);
+    let response = await fetch(`/counter`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.state.authorization.authorization.auth.access_token}`
+      }
+    });
+
+    let count = await response.json();
+
+    commit(types.COUNTER_SET_COUNTER, count.count);
+    commit(types.COUNTER_FETCHING_DONE);
   }
 };
 
