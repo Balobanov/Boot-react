@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+const cssNext = require('postcss-cssnext');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const extractSass = new ExtractTextPlugin({
@@ -22,17 +23,37 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [{
-          loader: "style-loader" // creates style nodes from JS strings
-        }, {
-          loader: "css-loader" // translates CSS into CommonJS
-        }, {
-          loader: "sass-loader" // compiles Sass to CSS
+          loader: 'style-loader',
         },
-          // {
-          //   loader: "vue-style-loader" // compiles Sass to CSS
-          // }
-          ]
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              minimize: false,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+              plugins: () => [
+                cssNext(),
+              ],
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+              includePaths: [
+                path.join('./', 'node_modules'),
+                path.join('./src', 'assets', 'styles'),
+                path.join('./dist', ''),
+              ],
+            },
+          }],
       },
+
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -47,11 +68,19 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpg|gif|svg|eot|woff2|woff|ttf)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]?[hash]'
-        }
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        exclude: /(node_modules)/,
+        use: ['file-loader'],
+      },
+      {
+        test: /\.(png|gif|jpg|svg)$/i,
+        exclude: /(node_modules)/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            outputPath: 'assets',
+          },
+        }],
       }
     ]
   },

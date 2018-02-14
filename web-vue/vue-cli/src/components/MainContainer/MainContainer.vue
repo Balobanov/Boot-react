@@ -1,14 +1,13 @@
 <template>
-  <div id="app-vue-bank">
+  <div>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'app-vue-bank',
-  }
+  export default {}
 </script>
 
 <style>
+
 </style>

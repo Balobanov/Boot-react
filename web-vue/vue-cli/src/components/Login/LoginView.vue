@@ -20,7 +20,7 @@
 <script>
 
   import {mapActions} from 'vuex';
-  import {ACTIONS_START_LOGIN_PROCESS, ACTIONS_START_LOGIN_PROCESS_BOX} from './../../types/auth/auth';
+  import {ACTIONS_START_LOGIN_PROCESS, ACTIONS_START_LOGIN_PROCESS_BOX} from '../../types/auth/auth';
 
   export default{
     data(){
