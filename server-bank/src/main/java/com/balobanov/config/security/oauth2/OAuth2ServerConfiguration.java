@@ -34,6 +34,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import javax.sql.DataSource;
 
@@ -53,8 +54,12 @@ public class OAuth2ServerConfiguration {
 
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
-			http.csrf().disable()
-				.authorizeRequests()
+			/**
+			 * Prod. if server will return static content
+			 */
+			//http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+			http.csrf().disable();
+				http.authorizeRequests()
 					.antMatchers("/banks").fullyAuthenticated()
 					.antMatchers("/counter").fullyAuthenticated()
 					.antMatchers("/**").permitAll();
