@@ -1,6 +1,5 @@
 <template>
   <div id="app-vue-bank">
-    <p class="testSas">ppppp</p>
     <router-view></router-view>
   </div>
 </template>
