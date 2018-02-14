@@ -34,6 +34,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import javax.sql.DataSource;
 
@@ -53,9 +54,14 @@ public class OAuth2ServerConfiguration {
 
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
-			http.csrf().disable()
-				.authorizeRequests()
+			/**
+			 * Prod. if server will return static content
+			 */
+			//http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+			http.csrf().disable();
+				http.authorizeRequests()
 					.antMatchers("/banks").fullyAuthenticated()
+					.antMatchers("/counter").fullyAuthenticated()
 					.antMatchers("/**").permitAll();
 //					.antMatchers("/oauth/token", "/signup", "/facebook").permitAll();
 		}
@@ -98,8 +104,8 @@ public class OAuth2ServerConfiguration {
 						.authorities("USER")
 						.scopes("read", "write")
 						.resourceIds(RESOURCE_ID)
-						.secret(clientSecret)
-						.accessTokenValiditySeconds(accessTokenValiditySeconds);
+						.secret(clientSecret);
+//						.accessTokenValiditySeconds(accessTokenValiditySeconds);
 		}
 
 		@Bean
@@ -113,7 +119,9 @@ public class OAuth2ServerConfiguration {
 			DefaultTokenServices tokenServices = new DefaultTokenServices();
 			tokenServices.setSupportRefreshToken(true);
 			tokenServices.setTokenStore(jdbcTokenStore());
-			tokenServices.setAccessTokenValiditySeconds(2_000_000_000);
+
+			/*Token*/
+//			tokenServices.setAccessTokenValiditySeconds(2_000_000_000);
 			return tokenServices;
 		}
 

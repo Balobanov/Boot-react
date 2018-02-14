@@ -199,7 +199,7 @@ INSERT INTO user(
   is_account_non_expired,
   is_account_non_locked,
   is_credentials_non_expired,
-  is_enabled) VALUES ('admin@gmail.com', TRUE, TRUE, TRUE, TRUE );
+  is_enabled, password) VALUES ('admin@gmail.com', TRUE, TRUE, TRUE, TRUE, '$2y$10$fcA8MusMnaF13jM/2Dq/9ebi.HLbTqSxyZrjN40n8.2cTroODCwPy'); -- 12345
 
 
 INSERT INTO role(role) VALUES ('ROLE_ADMIN');

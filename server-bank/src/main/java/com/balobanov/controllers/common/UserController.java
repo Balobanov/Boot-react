@@ -1,4 +1,4 @@
-package com.balobanov.controllers.bank;
+package com.balobanov.controllers.common;
 
 import com.balobanov.exceptions.ApplicationException;
 import com.balobanov.exceptions.EmailDoesNotExists;

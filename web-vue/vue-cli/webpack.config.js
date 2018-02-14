@@ -1,5 +1,11 @@
 var path = require('path');
 var webpack = require('webpack');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+const extractSass = new ExtractTextPlugin({
+  filename: "[name].[contenthash].css"
+  // disable: process.env.NODE_ENV === "development"
+});
 
 module.exports = {
   entry: './src/main.js',
@@ -8,20 +14,27 @@ module.exports = {
     publicPath: '/dist/',
     filename: 'build.js'
   },
+  plugins: [
+    extractSass
+  ],
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader'
-        ]
-      },      {
+        test: /\.scss$/,
+        use: [{
+          loader: "style-loader"
+        }, {
+          loader: "vue-style-loader"
+        }, {
+            loader: "css-loader"
+          }, {
+            loader: "sass-loader"
+          }]
+      }, {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
-          loaders: {
-          }
+          loaders: {}
           // other vue-loader options go here
         }
       },
@@ -48,7 +61,25 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     noInfo: true,
-    overlay: true
+    overlay: true,
+    port: 9000,
+    proxy: {
+      "/oauth/*": {
+        target: "http://localhost:8080",
+      },
+
+      "/user/*": {
+        target: "http://localhost:8080",
+      },
+
+      "/box/*": {
+        target: "http://localhost:8080",
+      },
+
+      "/counter/*": {
+        target: "http://localhost:8080",
+      }
+    }
   },
   performance: {
     hints: false
@@ -58,7 +89,6 @@ module.exports = {
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map';
-  // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
@@ -76,3 +106,11 @@ if (process.env.NODE_ENV === 'production') {
     })
   ])
 }
+
+// {
+//   test: /\.css$/,
+//   use: [
+//     'vue-style-loader',
+//     'css-loader'
+//   ]
+// }
