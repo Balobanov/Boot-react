@@ -35,6 +35,6 @@
   }
 
   a {
-    color: #00b9b4;
+    color: #b95764;
   }
 </style>
