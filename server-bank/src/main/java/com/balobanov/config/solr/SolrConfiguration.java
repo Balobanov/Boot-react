@@ -8,9 +8,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 
-@Configuration
-@ComponentScan({"com.balobanov.models.solr"})
-@EnableSolrRepositories(basePackages = "com.balobanov.repositories.solr")
+/**
+ * TODO: enable solr
+ */
+//@Configuration
+//@ComponentScan({"com.balobanov.models.solr"})
+//@EnableSolrRepositories(basePackages = "com.balobanov.repositories.solr")
 public class SolrConfiguration {
 
     @Bean

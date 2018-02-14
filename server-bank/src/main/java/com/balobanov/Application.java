@@ -1,39 +1,46 @@
-/*
- * Copyright 2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.balobanov;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.RecursiveAction;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
-//@SpringBootApplication
-//@EnableScheduling
-public class Application {
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+@SpringBootApplication
+@EnableScheduling
+public class Application extends SpringBootServletInitializer {
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(Application.class);
+	}
 	public static void main(String[] args) {
-		//SpringApplication.run(Application.class, args);
-		Random random = new Random();
+		SpringApplication.run(Application.class, args);
 	}
 }
+
+//		SpringApplication.run(Application.class, args);
+//
+//		String unformatted = "/home/user/Desktop/unformatted/";
+//		String formatted = "/home/user/Desktop/formatted/";
+//
+//		Files.walk(Paths.get(unformatted)).forEach(path -> {
+//			if(!Files.isDirectory(path)){
+//				File file = path.toFile();
+//				try {
+//					Path directory = Files.createDirectory(Paths.get(formatted + "/" + path.getFileName()));
+//					Files.copy(new FileInputStream(file), Paths.get(directory+"/" + path.getFileName()));
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});

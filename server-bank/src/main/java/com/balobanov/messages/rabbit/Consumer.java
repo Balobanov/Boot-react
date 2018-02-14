@@ -4,7 +4,10 @@ import com.balobanov.models.Bank;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
-@Component
+/**
+ * TODO: enable Consumer
+ */
+//@Component
 public class Consumer{
 
     @RabbitListener(queues="${banks.rabbitmq.queue}", containerFactory="jsaFactory")

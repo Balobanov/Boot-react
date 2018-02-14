@@ -74,5 +74,35 @@
       "name": "client.id",
       "type": "java.lang.String",
       "description": "Description for client.id."
+    },
+    {
+      "name": "box.developer.token.api",
+      "type": "java.lang.String",
+      "description": "Description for box.developer.token.api."
+    },
+    {
+      "name": "box.access_token",
+      "type": "java.lang.String",
+      "description": "Description for box.access_token."
+    },
+    {
+      "name": "box.refresh_token",
+      "type": "java.lang.String",
+      "description": "Description for box.refresh_token."
+    },
+    {
+      "name": "box.client.id",
+      "type": "java.lang.String",
+      "description": "Description for box.client.id."
+    },
+    {
+      "name": "box.client.secret",
+      "type": "java.lang.String",
+      "description": "Description for box.client.secret."
+    },
+    {
+      "name": "static.resources",
+      "type": "java.lang.String",
+      "description": "Description for static.resources."
     }
   ] }

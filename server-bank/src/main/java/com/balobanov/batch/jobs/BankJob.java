@@ -29,7 +29,10 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+/**
+ * TODO: enable BankJob
+ */
+//@Configuration
 //@EnableBatchProcessing
 public class BankJob {
 

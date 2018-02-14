@@ -8,10 +8,13 @@ import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.ftp.session.DefaultFtpSessionFactory;
 
-@Configuration
-@ImportResource("classpath:integration-ftp.xml")
-@IntegrationComponentScan
-@EnableIntegration
+/**
+ * TODO: enable FTP
+ */
+//@Configuration
+//@ImportResource("classpath:integration-ftp.xml")
+//@IntegrationComponentScan
+//@EnableIntegration
 public class Ftp {
 
     @Value("${ftp.host}")

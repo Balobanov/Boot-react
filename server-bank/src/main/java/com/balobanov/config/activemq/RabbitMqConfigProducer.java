@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+/**
+ * TODO: enable Rabbit
+ */
+//@Configuration
 public class RabbitMqConfigProducer {
 
     @Value("${banks.rabbitmq.queue}")

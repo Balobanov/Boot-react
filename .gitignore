@@ -3,3 +3,9 @@
 /.idea/
 /web/dist/
 /server-bank/target/
+/web-vue/target/
+/web-vue/vue-cli/dist/
+/web/target/
+/vuewar/target/
+/reactwar/target/
+/web-vue/vue-cli/node_modules/

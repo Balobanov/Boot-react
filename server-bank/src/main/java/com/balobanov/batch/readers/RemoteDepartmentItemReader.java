@@ -21,12 +21,12 @@ public class RemoteDepartmentItemReader implements ItemReader<Department> {
 
     @PostConstruct
     public void init() {
-        try {
-            Department[] forObject = restTemplate.getForObject("http://localhost:9090/departments/all", Department[].class);
-            departmentList = new ArrayList<>(Arrays.asList(forObject));
-        } catch (Exception e) {
+//        try {
+//            Department[] forObject = restTemplate.getForObject("http://localhost:9090/departments/all", Department[].class);
+//            departmentList = new ArrayList<>(Arrays.asList(forObject));
+//        } catch (Exception e) {
             departmentList =new ArrayList<>();
-        }
+//        }
     }
 
 

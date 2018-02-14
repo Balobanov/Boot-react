@@ -12,7 +12,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
-@Component
+/**
+ * TODO: enable Schedule
+ */
+//@Component
 public class Schedule {
 
     private JobLauncher jobLauncher;
