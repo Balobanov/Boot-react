@@ -22,15 +22,18 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [{
-          loader: "style-loader"
+          loader: "style-loader" // creates style nodes from JS strings
         }, {
-          loader: "vue-style-loader"
+          loader: "css-loader" // translates CSS into CommonJS
         }, {
-            loader: "css-loader"
-          }, {
-            loader: "sass-loader"
-          }]
-      }, {
+          loader: "sass-loader" // compiles Sass to CSS
+        },
+          // {
+          //   loader: "vue-style-loader" // compiles Sass to CSS
+          // }
+          ]
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {

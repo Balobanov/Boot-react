@@ -1,5 +1,6 @@
 <template>
   <div id="app-vue-bank">
+    <p class="testSas">ppppp</p>
     <router-view></router-view>
   </div>
 </template>
@@ -35,6 +36,6 @@
   }
 
   a {
-    color: #00b9b4;
+    color: #b95764;
   }
 </style>
